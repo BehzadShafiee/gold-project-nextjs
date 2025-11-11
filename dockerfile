@@ -22,8 +22,8 @@ COPY --from=builder /app ./
 
 RUN npm install -g concurrently
 
-EXPOSE 3000
 EXPOSE 4000
+EXPOSE 3000
 
 # Run backend and frontend concurrently
 CMD ["concurrently", "node lib/index.js", "npm start"]
