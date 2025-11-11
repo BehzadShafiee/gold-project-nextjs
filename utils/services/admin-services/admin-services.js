@@ -3,8 +3,8 @@ import axios from "axios";
 // const adminApiUrl = "http://localhost:4000/admin/api";
 // const customerApiUrl = "http://localhost:4000/user/api";
 
-const adminApiUrl = "http://192.168.41.42:5000/admin/api";
-const customerApiUrl = "http://192.168.41.42:5000/user/api";
+const adminApiUrl = "http://192.168.41.42:4000/admin/api";
+const customerApiUrl = "http://192.168.41.42:4000/user/api";
 
 export const checkAdminAuthBySession = async (sessionId) => {
   try {
