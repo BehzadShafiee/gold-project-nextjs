@@ -1,7 +1,7 @@
 # --- Stage 1: Build Next.js app ---
 FROM node:20-alpine AS builder
 
-WORKDIR /
+WORKDIR /app
 
 # Copy package files
 COPY package*.json ./
@@ -19,7 +19,7 @@ RUN npm run build
 # --- Stage 2: Run backend + frontend ---
 FROM node:20-alpine AS runner
 
-WORKDIR /
+WORKDIR /app
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1

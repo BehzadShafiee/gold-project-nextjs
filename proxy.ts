@@ -37,18 +37,18 @@ export async function proxy(req: NextRequest) {
 
     if (!userSessionId && !isUserException) {
       const loginUrl = new URL('/user/log-in', req.url);
-      return NextResponse.redirect(loginUrl);
+      // return NextResponse.redirect(loginUrl);
     }
 
     if (userSessionId) {
       const userSession = await checkUserAuthBySession(userSessionId.value);
       if (userSession?.status == 200 && isUserException) {
         const homeUrl = new URL('/user/home', req.url);
-        return NextResponse.redirect(homeUrl);
+        // return NextResponse.redirect(homeUrl);
       }
       if (userSession?.status == 401 && !isUserException) {
         const loginUrl = new URL('/user/log-in', req.url);
-        return NextResponse.redirect(loginUrl);
+        // return NextResponse.redirect(loginUrl);
       }
     }
   }
@@ -67,18 +67,18 @@ export async function proxy(req: NextRequest) {
 
     if (!adminSessionId && !isAdminException) {
       const loginUrl = new URL('/admin/log-in', req.url);
-      return NextResponse.redirect(loginUrl);
+      // return NextResponse.redirect(loginUrl);
     }
 
     if (adminSessionId) {
       const adminSession = await checkAdminAuthBySession(adminSessionId.value);
       if (adminSession?.status == 200 && isAdminException) {
         const dashboardUrl = new URL('/admin/dashboard', req.url);
-        return NextResponse.redirect(dashboardUrl);
+        // return NextResponse.redirect(dashboardUrl);
       }
       if (adminSession?.status == 401 && !isAdminException) {
         const loginUrl = new URL('/admin/log-in', req.url);
-        return NextResponse.redirect(loginUrl);
+        // return NextResponse.redirect(loginUrl);
       }
     }
   }
