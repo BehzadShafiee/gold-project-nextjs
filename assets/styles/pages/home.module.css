@@ -1,0 +1,10 @@
+.home_buy_form_price_section::after{
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    width: 90%;
+    z-index: 1;
+    border-top: 2px dotted var(--color-gray-light);
+}

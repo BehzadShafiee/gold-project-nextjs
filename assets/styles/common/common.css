@@ -1,0 +1,78 @@
+@import "tailwindcss";
+:root{
+    --color-gold: #d0a12b;
+    --color-black-light: #48514b;
+    --color-gray-light: #e2d9ca;
+    --color-gray-main: #c9bfae;
+    --color-white: #f8faf9;
+}
+*{
+    box-sizing: border-box;
+}
+body{
+    color: var(--color-gold);
+}
+.back-theme-dark{
+    background: var(--color-black-light);
+}
+.back-theme-light{
+    background: var(--color-white);
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+input[type=number] {
+  appearance: textfield;
+}
+select:focus , input:focus{
+    outline: none;
+}
+button:active , button:focus{
+    outline: none;
+}
+.back-white{
+    background: var(--color-white);
+}
+.back-gold{
+    background: var(--color-gold);
+}
+.back-black-light{
+    background: var(--color-black-light);
+}
+.back-gray-light{
+    background: var(--color-gray-light);
+}
+.back-gray-main{
+    background: var(--color-gray-main);
+}
+.color-white{
+    color: var(--color-white);
+}
+.color-gold{
+    color: var(--color-gold);
+}
+.color-black-light{
+    color: var(--color-black-light);
+}
+.color-gray-light{
+    color: var(--color-gray-light);
+}
+.color-gray-main{
+    color: var(--color-gray-main);
+}
+.font-12{
+    font-size: 12px;
+}
+.font-14{
+    font-size: 14px;
+}
+.font-16{
+    font-size: 16px;
+}
+.font-18{
+    font-size: 18px;
+}
+.font-20{
+    font-size: 20px;
+}
