@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    container_name: gold-project
+    ports:
+      - "3000:3000"
+      - "8800:8800"
+    environment:
+      - NODE_ENV=production
+      - PORT=8800
+      - MONGODB_URL=mongodb://mongo:27017/gold-project-db
+    depends_on:
+      - mongo
+    restart: always
+
+  mongo:
+    image: mongo:6
+    container_name: gold-mongo
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=gold-project-db
+    volumes:
+      - mongo_data:/data/db
+    restart: always
+
+volumes:
+  mongo_data:
