@@ -32,7 +32,7 @@ RUN npm install -g concurrently
 
 # Expose both ports
 EXPOSE 3000
-EXPOSE 8800
+EXPOSE 4000
 
 # Start both services (backend and frontend)
 CMD ["concurrently", "node lib/index.js", "npm start"]

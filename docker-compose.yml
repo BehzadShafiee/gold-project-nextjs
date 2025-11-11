@@ -5,10 +5,10 @@ services:
     container_name: gold-project
     ports:
       - "3000:3000"
-      - "8800:8800"
+      - "4000:4000"
     environment:
       - NODE_ENV=production
-      - PORT=8800
+      - PORT=4000
       - MONGODB_URL=mongodb://mongo:27017/gold-project-db
     depends_on:
       - mongo
