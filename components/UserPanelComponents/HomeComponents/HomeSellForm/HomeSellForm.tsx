@@ -5,8 +5,9 @@ import { submitSellOrderByAxios } from '@/utils/services/customer-services/custo
 import HomeStyles from '@/assets/styles/pages/home.module.css';
 import { FormEvent, useState } from 'react';
 import { useUserMainContext } from '@/utils/contexts/userContexts/userMainContexts';
+import { Wallet } from '@/utils/interfaces/customer-interfaces/wallet.interface';
 
-export default function HomeSellForm({ userId } : { userId : string | undefined }) {
+export default function HomeSellForm({ userId , walletProductsList } : { userId : string | undefined , walletProductsList : Wallet}) {
 
     const { theme } = useUserMainContext();
 
@@ -73,14 +74,29 @@ export default function HomeSellForm({ userId } : { userId : string | undefined 
             <br/>
             <div className={`text-start ${theme == 'light' ? 'color-black-light' : ''} font-16 ps-1`}>مقدار طلای مورد نظر</div>
             <div className={`flex border-2 ${theme == 'dark' ? 'border-white' : ''} rounded-lg overflow-hidden my-2`}>
-                <input
+                {/* <input
                     onChange={(e) => handleSetBuyForm(e.target.value , e.target.name)}
                     value={buyForm.product_name}
                     type="text"
                     name='product_name'
                     className={`w-4/5 border-l-2 ${theme == 'light' ? 'color-black-light border-[#d0a12b]' : 'border-white'} font-bold p-2 focus:border-l-2`}
                     placeholder='محصول مورد نظر ...'
-                />
+                /> */}
+                <select
+                    onChange={(e) => handleSetBuyForm(e.target.value , e.target.name)}
+                    value={buyForm.product_name}
+                    name='product_name'
+                    className={`w-4/5 border-l-2 ${theme == 'light' ? 'color-black-light border-[#d0a12b]' : 'border-white'} font-bold p-2 focus:border-l-2`}
+                >
+                    <option value="">محصول مورد نظر</option>
+                    {
+                        walletProductsList?.products.map((p) => {
+                            return(
+                                <option key={p._id} value={p.productId}>{p.productName}</option>
+                            )
+                        })
+                    }
+                </select>
                 <input
                     onChange={(e) => handleSetBuyForm(convertNumbersToEnglish(e.target.value) , e.target.name)}
                     value={convertNumbersToPersian(buyForm.weight_value)}

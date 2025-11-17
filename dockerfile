@@ -15,13 +15,13 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV FRONTEND_PORT=3000
-ENV BACKEND_PORT=4000
+ENV BACKEND_PORT=3001
 
 COPY --from=builder /app ./
 
 RUN npm install -g concurrently
 
-EXPOSE 4000
+EXPOSE 3001
 EXPOSE 3000
 
 # Run backend and frontend concurrently
