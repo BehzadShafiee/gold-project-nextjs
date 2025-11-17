@@ -1,15 +1,16 @@
+version: "3.9"
+
 services:
   app:
     build: .
     container_name: gold-project
     ports:
-      - "4000:4000"
+      - "3001:3001"
       - "3000:3000"
     environment:
       - NODE_ENV=production
       - FRONTEND_PORT=3000
-      - BACKEND_PORT=4000
-      - PORT=4000
+      - BACKEND_PORT=3001
       - MONGODB_URL=mongodb://mongo:27017/gold-project-db
     depends_on:
       - mongo
