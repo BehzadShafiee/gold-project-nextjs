@@ -7,7 +7,7 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-# --- Stage 2: Run backend + frontend ---
+# --- Stage 2: Run backend + frontend --
 FROM node:20-alpine AS runner
 
 WORKDIR /app
