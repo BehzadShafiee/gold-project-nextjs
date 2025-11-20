@@ -54,7 +54,7 @@ export const logOutAdminByAxios = async (adminId) => {
   await axios({
     url: `${customerApiUrl}/admin/log-out`,
     withCredentials: true,
-    method: "post",
+    method: "put",
     data: { "adminId" : adminId }
   })
     .then((res) => {

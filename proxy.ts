@@ -57,7 +57,7 @@ export async function proxy(req: NextRequest) {
     if (isAdminLogout && adminSessionId) {
       const adminSession = await checkAdminAuthBySession(adminSessionId.value);
       if (adminSession?.status == 200 || adminSession != 'not-authorized') {
-        await logOutAdminByAxios(adminSession.userId);
+        await logOutAdminByAxios(adminSession.adminId);
         cookieStore.delete('adminSessionId');
         cookieStore.delete('adminId');
       }

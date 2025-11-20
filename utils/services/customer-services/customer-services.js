@@ -62,7 +62,7 @@ export const logOutUserByAxios = async (userId) => {
   await axios({
     url: `${customerApiUrl}/user/log-out`,
     withCredentials: true,
-    method: "post",
+    method: "put",
     data: { "userId" : userId }
   })
     .then((res) => {
