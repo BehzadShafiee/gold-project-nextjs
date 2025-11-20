@@ -1,11 +1,23 @@
 import axios from "axios";
 
-const customerApiUrl = "http://localhost:8800/user/api";
+// const customerApiUrl = "http://localhost:3001/user/api";
+
+const customerApiUrl = "http://192.168.41.42:3001/user/api";
 
 export const checkUserAuthBySession = async (sessionId) => {
   try {
     const data = await fetch(`${customerApiUrl}/user/check-auth/${sessionId}` , { cache: 'no-store' });
     return data.json();    
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+}
+
+export const getAllWalletProductsByFetch = async (userId) => {
+  try {
+    const data = await fetch(`${customerApiUrl}/wallet/${userId}` , { cache: 'no-store' });
+    return data.json();
   } catch (error) {
     console.log(error);
     return error;
@@ -50,7 +62,7 @@ export const logOutUserByAxios = async (userId) => {
   await axios({
     url: `${customerApiUrl}/user/log-out`,
     withCredentials: true,
-    method: "post",
+    method: "put",
     data: { "userId" : userId }
   })
     .then((res) => {

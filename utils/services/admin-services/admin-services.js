@@ -1,7 +1,10 @@
 import axios from "axios";
 
-const adminApiUrl = "http://localhost:8800/admin/api";
-const customerApiUrl = "http://localhost:8800/user/api";
+// const adminApiUrl = "http://localhost:3001/admin/api";
+// const customerApiUrl = "http://localhost:3001/user/api";
+
+const adminApiUrl = "http://192.168.41.42:3001/admin/api";
+const customerApiUrl = "http://192.168.41.42:3001/user/api";
 
 export const checkAdminAuthBySession = async (sessionId) => {
   try {
@@ -51,7 +54,7 @@ export const logOutAdminByAxios = async (adminId) => {
   await axios({
     url: `${customerApiUrl}/admin/log-out`,
     withCredentials: true,
-    method: "post",
+    method: "put",
     data: { "adminId" : adminId }
   })
     .then((res) => {

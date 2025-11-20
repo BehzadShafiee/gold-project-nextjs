@@ -1,38 +1,38 @@
-# --- Stage 1: Build Next.js app ---
+# Stage 1: Build both backend and frontend
 FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Copy package files
+# Copy package files and install dependencies
 COPY package*.json ./
-
-# Install dependencies
 RUN npm ci
 
-# Copy the rest of your app
+# Copy all code
 COPY . .
 
-# Build Next.js for production
+# Build frontend (Next.js) if applicable
 RUN npm run build
 
-
-# --- Stage 2: Run backend + frontend ---
+# Stage 2: Production image
 FROM node:20-alpine AS runner
 
 WORKDIR /app
 
+# Environment variables
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV FRONTEND_PORT=3000
+ENV BACKEND_PORT=3001
 
-# Copy everything from the builder stage
+# Copy built app from builder
 COPY --from=builder /app ./
 
-# Install concurrently to run both backend and frontend together
+# Install concurrently to run both backend and frontend
 RUN npm install -g concurrently
 
-# Expose both ports
+# Expose ports for backend and frontend
+EXPOSE 3001
 EXPOSE 3000
-EXPOSE 8800
 
-# Start both services (backend and frontend)
-CMD ["concurrently", "node lib/index.js", "npm start"]
+# Run backend and frontend concurrently
+CMD ["concurrently", "--kill-others-on-fail", "node lib/index.js", "npm start -- -p 3000"]

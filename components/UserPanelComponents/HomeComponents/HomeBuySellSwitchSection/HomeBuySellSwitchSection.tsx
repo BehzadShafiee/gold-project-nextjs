@@ -5,8 +5,9 @@ import HomeSellForm from "../HomeSellForm/HomeSellForm";
 import HomeBuyForm from "../HomeBuyForm/HomeBuyForm";
 import { Product } from "@/utils/interfaces/admin-interfaces/product.interface";
 import { useUserMainContext } from "@/utils/contexts/userContexts/userMainContexts";
+import { Wallet } from "@/utils/interfaces/customer-interfaces/wallet.interface";
 
-export default function HomeBuySellSwitchSection({ userId , productsList } : { userId : string | undefined , productsList : Product[]}) {
+export default function HomeBuySellSwitchSection({ userId , productsList , walletProductsList } : { userId : string | undefined , productsList : Product[] , walletProductsList : Wallet}) {
 
   const { theme } = useUserMainContext();
 
@@ -26,7 +27,7 @@ export default function HomeBuySellSwitchSection({ userId , productsList } : { u
         <div className={`w-full back-theme-${theme} p-5 my-5 rounded-lg`}>
           {
             activeTab == 'sell' ?
-              <HomeSellForm userId={userId}/>
+              <HomeSellForm userId={userId} walletProductsList={walletProductsList}/>
             : activeTab == 'buy' ?
               <HomeBuyForm userId={userId} productsList={productsList}/>
             : ''
