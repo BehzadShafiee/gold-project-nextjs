@@ -25,9 +25,7 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   appearance: textfield;
 }
-select:focus , input:focus{
-    outline: none;
-}
+select:focus , input:focus , 
 button:active , button:focus{
     outline: none;
 }
