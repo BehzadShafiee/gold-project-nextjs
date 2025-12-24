@@ -5,7 +5,7 @@ import { submitSellOrderByAxios } from '@/utils/services/customer-services/custo
 import HomeStyles from '@/assets/styles/pages/home.module.css';
 import { FormEvent, useState } from 'react';
 import { useUserMainContext } from '@/utils/contexts/userContexts/userMainContexts';
-import { Wallet } from '@/utils/interfaces/customer-interfaces/wallet.interface';
+import { Wallet, WalletProduct } from '@/utils/interfaces/customer-interfaces/wallet.interface';
 import { Product } from '@/utils/interfaces/admin-interfaces/product.interface';
 
 export default function HomeSellForm({ userId , walletProductsList } : { userId : string | undefined , walletProductsList : Wallet}) {
@@ -22,7 +22,7 @@ export default function HomeSellForm({ userId , walletProductsList } : { userId 
         // currency : selectedProduct?.currency
     });
 
-    const [selectedProduct , setSelectedProduct] = useState<Product | null>(null);
+    const [selectedProduct , setSelectedProduct] = useState<WalletProduct | null>(null);
 
     const handleSetSelectedProduct = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const product = walletProductsList.products.find(
