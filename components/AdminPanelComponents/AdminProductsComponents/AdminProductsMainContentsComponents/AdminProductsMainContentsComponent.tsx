@@ -59,7 +59,7 @@ export default function AdminProductsMainContentsComponent({ productsList } : { 
                     
                 </div>
 
-                <PaginationComponent/>
+                {/* <PaginationComponent/> */}
             </div>
         </div>
     </>
