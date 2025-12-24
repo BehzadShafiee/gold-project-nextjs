@@ -6,6 +6,7 @@ import HomeStyles from '@/assets/styles/pages/home.module.css';
 import { FormEvent, useState } from 'react';
 import { useUserMainContext } from '@/utils/contexts/userContexts/userMainContexts';
 import { Wallet } from '@/utils/interfaces/customer-interfaces/wallet.interface';
+import { Product } from '@/utils/interfaces/admin-interfaces/product.interface';
 
 export default function HomeSellForm({ userId , walletProductsList } : { userId : string | undefined , walletProductsList : Wallet}) {
 
@@ -17,10 +18,33 @@ export default function HomeSellForm({ userId , walletProductsList } : { userId 
         product_name:'',
         weight_value:'',
         weight_unit:'',
-        price_value:''
+        price_value:'',
+        // currency : selectedProduct?.currency
     });
+
+    const [selectedProduct , setSelectedProduct] = useState<Product | null>(null);
+
+    const handleSetSelectedProduct = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const product = walletProductsList.products.find(
+            (p) => p.productId == e.target.value
+        );
+
+        if (!product) return;
+
+        setSelectedProduct(product);
+// console.log(product);
+
+        setBuyForm((prev) => ({
+            ...prev,
+            selected_product: product.productId,
+            weight_value: product.amount,
+            weight_unit: product.unit,
+            price_value: product.totalPrice.toString(),
+        }));
+        
+    };
     
-    const handleSetBuyForm = (value:number | string , type: string) => {
+    const handleSetBuyForm = (value:number | string , keyName: string) => {
         
         value = value.toString();
         const regex = /^[0-9]+(\.[0-9]+)?$/;
@@ -28,23 +52,40 @@ export default function HomeSellForm({ userId , walletProductsList } : { userId 
 
         // if(isNum || value == ''){
             value = value.toString();
-            switch (type) {
-                case 'product_name':
-                    setBuyForm({...buyForm ,  product_name: value});
-                    break;
-                case 'weight_value':
-                    setBuyForm({...buyForm ,  weight_value: value});
-                    break;
-                case 'weight_unit':
-                    setBuyForm({...buyForm , weight_unit: value});
-                    break;
-                case 'price_value':
-                    setBuyForm({...buyForm , price_value: value});
-                    break;
-                default:
-                    break;
-            }
+            // switch (type) {
+            //     case 'product_name':
+            //         setBuyForm({...buyForm ,  product_name: value});
+            //         // walletProductsList?.products.map((p) => {
+            //         //     if(p.productId == value){
+            //         //         setBuyForm({...buyForm ,  weight_value: p.amount});
+            //         //         setBuyForm({...buyForm , weight_unit: p.unit});
+            //         //         setBuyForm({...buyForm , price_value: p.totalPrice});
+            //         //     }
+                        
+            //         // });
+            //         break;
+            //     case 'weight_value':
+            //         setBuyForm({...buyForm ,  weight_value: value});
+            //         break;
+            //     case 'weight_unit':
+            //         setBuyForm({...buyForm , weight_unit: value});
+            //         break;
+            //     case 'price_value':
+            //         setBuyForm({...buyForm , price_value: value});
+            //         break;
+            //     default:
+            //         break;
+            // }
         // }
+
+        // console.log(buyForm);
+        
+
+        setBuyForm((prev) => ({
+            ...prev,
+            [keyName]: value.toString(),
+        }));
+
     }
 
     const hadleSetSellOrder = async (e: FormEvent<HTMLFormElement>) => {
@@ -61,22 +102,7 @@ export default function HomeSellForm({ userId , walletProductsList } : { userId 
   return (
     <>
         <form onSubmit={(e) => hadleSetSellOrder(e)} className='w-full h-[70vh] flex flex-col justify-between'>
-            <div className={`w-full rounded-lg back-theme-${theme} p-2`}>
-                <div className={`${HomeStyles.home_buy_form_price_section} w-full relative`}>
-                    <div className={`flex items-center justify-between back-theme-${theme}`}>
-                        <div className={`z-2 back-theme-${theme} pl-2`}>قیمت فروش</div>
-                        <div className={`z-2 back-theme-${theme} pr-2`}>۱۰,۵۶۸,۹۹۰ <small>تومان </small></div>
-                    </div>
-                </div>
-                <br/>
-                <div className={`${HomeStyles.home_buy_form_price_section} w-full relative`}>
-                    <div className={`flex items-center justify-between back-theme-${theme}`}>
-                        <div className={`z-2 back-theme-${theme} pl-2`}>موجودی طلای شما</div>
-                        <div className={`z-2 back-theme-${theme} pr-2`}>۵۰<small>گرم </small></div>
-                    </div>
-                </div>
-            </div>
-            <br/>
+
             <div className={`text-start ${theme == 'light' ? 'color-black-light' : ''} font-16 ps-1`}>مقدار طلای مورد نظر</div>
             <div className={`flex border-2 ${theme == 'dark' ? 'border-white' : ''} rounded-lg overflow-hidden my-2`}>
                 {/* <input
@@ -88,8 +114,8 @@ export default function HomeSellForm({ userId , walletProductsList } : { userId 
                     placeholder='محصول مورد نظر ...'
                 /> */}
                 <select
-                    onChange={(e) => handleSetBuyForm(e.target.value , e.target.name)}
-                    value={buyForm.product_name}
+                    onChange={(e) => handleSetSelectedProduct(e)}
+                    // value={buyForm.product_name}
                     name='product_name'
                     className={`w-4/5 border-l-2 ${theme == 'light' ? 'color-black-light border-[#d0a12b]' : 'border-white'} font-bold p-2 focus:border-l-2`}
                 >
@@ -116,13 +142,31 @@ export default function HomeSellForm({ userId , walletProductsList } : { userId 
                     name="weight_unit"
                     className={`back-theme-${theme} w-1/5 ${theme == 'light' ? 'color-black-light' : ''} p-2 text-center`}
                 >
-                    <option value="">واحد</option>
+                    {/* <option value="">واحد</option> */}
                     <option value="gr">گرم</option>
                     <option value="miliGram">سوت</option>
                     <option value="mithqal">مثقال</option>
                     <option value="item">عدد</option>
                 </select>
             </div>
+
+            <div className={`w-full rounded-lg back-theme-${theme} p-2`}>
+                <div className={`${HomeStyles.home_buy_form_price_section} w-full relative`}>
+                    <div className={`flex items-center justify-between back-theme-${theme}`}>
+                        <div className={`z-2 back-theme-${theme} pl-2`}>قیمت فروش</div>
+                        {/* <div className={`z-2 back-theme-${theme} pr-2`}>{convertNumbersToPersian(selectedProduct?.totalPrice)} <small>{selectedProduct?.currency} </small></div> */}
+                        <div className={`z-2 back-theme-${theme} pr-2`}>۱۰۰۰۰ <small>ریال </small></div>
+                    </div>
+                </div>
+                <br/>
+                <div className={`${HomeStyles.home_buy_form_price_section} w-full relative`}>
+                    <div className={`flex items-center justify-between back-theme-${theme}`}>
+                        <div className={`z-2 back-theme-${theme} pl-2`}>موجودی طلای شما</div>
+                        <div className={`z-2 back-theme-${theme} pr-2`}>۵۰<small>گرم </small></div>
+                    </div>
+                </div>
+            </div>
+            
             <br/>
             <div className={`text-start ${theme == 'light' ? 'color-black-light' : ''} font-16 ps-1`}>مبلغ مورد نظر</div>
             <div className={`flex border-2 ${theme == 'dark' ? 'border-white' : ''} rounded-lg overflow-hidden my-2`}>
@@ -134,7 +178,7 @@ export default function HomeSellForm({ userId , walletProductsList } : { userId 
                     className={`w-4/5 border-l-2 border-white ${theme == 'light' ? 'color-black-light' : ''} font-bold p-2 focus:border-l-2`}
                     placeholder='مبلغ مورد نظر ...'
                 />
-                <button className={`w-1/5 ${theme == 'light' ? 'back-gray-light color-black-light' : ''} cursor-pointer`}>کل موجودی</button>
+                <button type='button' className={`w-1/5 ${theme == 'light' ? 'back-gray-light color-black-light' : ''} cursor-pointer`}>کل موجودی</button>
             </div>
             <br/>
             <div className={`w-full rounded-lg back-theme-${theme} p-2`}>
@@ -153,9 +197,22 @@ export default function HomeSellForm({ userId , walletProductsList } : { userId 
                 </div>
             </div>
             <br/>
-            <div className="flex gap-2">
-                <button className={`w-1/2 rounded-lg py-2 cursor-pointer back-theme-${theme} ${theme == 'dark' ? 'border' : 'border'} hover:shadow-lg transition-all`}>واریز به کیف پول</button>
-                <button className='w-1/2 rounded-lg py-2 cursor-pointer back-gold color-white hover:shadow-lg transition-all'>واریز به حساب</button>
+            <div className="flex justify-between">
+                {/* <button className={`w-1/2 rounded-lg py-2 cursor-pointer back-theme-${theme} ${theme == 'dark' ? 'border' : 'border'} hover:shadow-lg transition-all`}>واریز به کیف پول</button>
+                <button className='w-1/2 rounded-lg py-2 cursor-pointer back-gold color-white hover:shadow-lg transition-all'>واریز به حساب</button> */}
+                <div className="w-1/2 flex justify-center gap-5">
+                    <div className='flex items-center gap-2'>
+                        <input type="radio" name="payMethod" id="toBank" className='cursor-pointer'/>
+                        <label htmlFor="toBank" className='cursor-pointer'>واریز مبلغ به حساب</label>
+                    </div>
+                    <div className='flex items-center gap-2'>
+                        <input type="radio" name="payMethod" id="toWallet" className='cursor-pointer'/>
+                        <label htmlFor="toWallet" className='cursor-pointer'>واریز مبلغ به کیف پول</label>
+                    </div>
+                </div>
+                <div className="w-1/2">
+                    <button className='w-2/3 rounded-lg p-2 cursor-pointer back-gold color-white hover:shadow-lg transition-all'>ثبت سفارش فروش</button>
+                </div>
             </div>
         </form>
     </>

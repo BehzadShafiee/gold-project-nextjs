@@ -15,7 +15,7 @@ export default function RootLayout({
 
   return (
     <html lang="fa">
-      <body dir="rtl" className={`${yekan.className} back-white`}>
+      <body dir="rtl" className={`${yekan.className} back-gray-main`}>
         {children}
       </body>
     </html>

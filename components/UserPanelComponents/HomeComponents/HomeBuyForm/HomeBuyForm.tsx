@@ -20,6 +20,7 @@ export default function HomeBuyForm({ userId , productsList } : { userId : strin
         weight_value:'',
         weight_unit: '',
         price_value:'',
+        currency: selectedProduct?.currency || 'rial'
     });
 
     const currencyList : { [key: string]: string } = {'IRT':'تومان','IRR':'ریال','USD':'دلار'};
