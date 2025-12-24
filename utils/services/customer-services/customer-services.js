@@ -25,37 +25,33 @@ export const getAllWalletProductsByFetch = async (userId) => {
 }
 
 export const SignInUserByAxios = async (userData) => {
-  await axios({
-    url: `${customerApiUrl}/user/sign-in`,
-    withCredentials: true,
-    method: "post",
-    data: userData
-  })
-    .then((res) => {
-      // return res;
-      window.location.href = '/user/home';
-    })
-    .catch((err) => {
-      console.log(err);
-      return err;
+  try {
+    const res = await axios({
+      url: `${customerApiUrl}/user/sign-in`,
+      withCredentials: true,
+      method: "post",
+      data: userData
     });
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
 };
 
 export const logInUserByAxios = async (userData) => {
-  await axios({
-    url: `${customerApiUrl}/user/log-in`,
-    withCredentials: true,
-    method: "post",
-    data: userData
-  })
-    .then((res) => {
-      // return res;
-      window.location.href = '/user/home';
-    })
-    .catch((err) => {
-      console.log(err);
-      return err;
+  try {
+    const res = await axios({
+      url: `${customerApiUrl}/user/log-in`,
+      withCredentials: true,
+      method: "post",
+      data: userData
     });
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
 };
 
 export const logOutUserByAxios = async (userId) => {
@@ -73,26 +69,29 @@ export const logOutUserByAxios = async (userId) => {
 };
 
 export const submitSellOrderByAxios = async (sellData) => {
-  await axios({
-    url: `${customerApiUrl}/sell`,
-    method: "post",
-    data: sellData
-  })
-    .then((res) => {console.log(res)})
-    .catch((err) => console.log(err));
+  try {
+    const res = await axios({
+      url: `${customerApiUrl}/sell`,
+      method: "post",
+      data: sellData
+    });
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
 };
 
 export const submitBuyOrderByAxios = async (buyData) => {
-  await axios({
-    url: `${customerApiUrl}/buy`,
-    method: "post",
-    data: buyData,
-  })
-    .then((res) => {
-      return res;
-    })
-    .catch((err) => {
-      // console.log(err);
-      return err;
+  try {
+    const res = await axios({
+      url: `${customerApiUrl}/buy`,
+      method: "post",
+      data: buyData,
     });
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
 };

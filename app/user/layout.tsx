@@ -1,3 +1,4 @@
+import SimpleToast from "@/components/UserPanelComponents/CommonComponents/SimpleToast/SimpleToast";
 import UserPanelHeader from "@/components/UserPanelComponents/CommonComponents/UserPanelHeader/UserPanelHeader";
 import { UserMainContextProvider } from "@/utils/contexts/userContexts/userMainContexts";
 import { checkUserAuthBySession } from "@/utils/services/customer-services/customer-services";
@@ -26,6 +27,8 @@ export default async function UserLayout({
             <UserPanelHeader/>
           : ''
         }
+
+        <SimpleToast/>
 
         {children}
       </UserMainContextProvider>

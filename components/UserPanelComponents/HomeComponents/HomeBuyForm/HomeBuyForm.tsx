@@ -9,7 +9,7 @@ import { FormEvent , useEffect, useState } from 'react';
 
 export default function HomeBuyForm({ userId , productsList } : { userId : string | undefined , productsList : Product[]}) {
 
-    const { theme } = useUserMainContext();
+    const { theme , setSimpleToastData } = useUserMainContext();
 
     const [selectedProduct , setSelectedProduct] = useState<Product | null>(null);
 
@@ -64,6 +64,12 @@ export default function HomeBuyForm({ userId , productsList } : { userId : strin
         e.preventDefault();
 
         const result = await submitBuyOrderByAxios(buyForm);
+
+        setSimpleToastData({
+            show: true,
+            message: result?.status == 200 ? result?.message : result?.response?.data?.message,
+            status: result?.status == 200 ? 'success' : 'error'
+        });
 
     };
 

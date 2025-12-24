@@ -8,7 +8,7 @@ import { FormEvent, useState } from "react";
 
 export default function AdminLogInForm() {
 
-  const { theme } = useAdminMainContext();
+  const { theme , setSimpleToastData } = useAdminMainContext();
 
   const [ loginData , setLoginData] = useState({email:'', password:''});
 
@@ -29,9 +29,18 @@ export default function AdminLogInForm() {
   const handleSubmitLogin = async (e : FormEvent) => {
     e.preventDefault();
     const result = await logInAdminByAxios(loginData);
-    // if(result?.status == 200) {
-    //   window.location.href = '/admin/dashboard';
-    // }
+    
+    setSimpleToastData({
+      show: true,
+      message: result?.status == 200 ? result?.message : result?.response?.data?.message,
+      status: result?.status == 200 ? 'success' : 'error'
+    });
+
+    if(result?.status == 200) {
+      setTimeout(() => {
+        window.location.href = '/admin/dashboard';
+      }, 1000);
+    }
   }
 
   return (

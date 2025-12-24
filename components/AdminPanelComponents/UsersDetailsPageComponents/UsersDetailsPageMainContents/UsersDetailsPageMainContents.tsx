@@ -8,11 +8,10 @@ import { changeUserRegisteration, setNewRegisterationForUser } from "@/utils/ser
 import { useState } from "react";
 
 export default function UsersDetailsPageMainContents({ userDetails } : {userDetails : UserInterface}) {
-console.log(userDetails);
 
     const router = useRouter();
 
-    const { theme } = useAdminMainContext();
+    const { theme , setSimpleToastData } = useAdminMainContext();
 
     const [userRegisterValue , setUserRegisterValue] = useState({
         userId: userDetails?._id,
@@ -26,11 +25,34 @@ console.log(userDetails);
 
     const handleChangeUserRegisteration = async (userId : string) => {        
         if(userDetails.userRegister == 0) {
-            await setNewRegisterationForUser(userId , userRegisterValue);
+            const result = await setNewRegisterationForUser(userId , userRegisterValue);
+
+            setSimpleToastData({
+                show: true,
+                message: result?.status == 200 ? result?.message : result?.response?.data?.message,
+                status: result?.status == 200 ? 'success' : 'error'
+            });
+            
+            if(result?.status == 200) {
+                setTimeout(() => {
+                    router.push('/admin/users');
+                }, 500);
+            }
         } else {
-            await changeUserRegisteration(userId , userRegisterValue);
+            const result = await changeUserRegisteration(userId , userRegisterValue);
+
+            setSimpleToastData({
+                show: true,
+                message: result?.status == 200 ? result?.message : result?.response?.data?.message,
+                status: result?.status == 200 ? 'success' : 'error'
+            });
+            
+            if(result?.status == 200) {
+                setTimeout(() => {
+                    router.push('/admin/users');
+                }, 500);
+            }
         }
-        router.push('/admin/users');
     }
 
   return (

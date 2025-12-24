@@ -34,7 +34,7 @@ interface ProductPayload {
 
 export default function AdminCreateProductMainContentsComponent() {
 
-  const { theme } = useAdminMainContext();
+  const { theme , setSimpleToastData } = useAdminMainContext();
 
   const [productName, setProductName] = useState('');
   const [standard, setStandard] = useState('18');
@@ -118,7 +118,12 @@ export default function AdminCreateProductMainContentsComponent() {
 
     try {
       const res = await submitNewProductByAxios(payload);
-      alert('محصول با موفقیت ثبت شد');
+
+      setSimpleToastData({
+        show: true,
+        message: 'محصول با موفقیت ثبت شد',
+        status: 'success'
+      });
 
       setProductName('');
       setWeightOrNumber('');
@@ -132,7 +137,11 @@ export default function AdminCreateProductMainContentsComponent() {
       setAttributes([]);
     } catch (err: unknown) {
         console.error('Error creating product:', err);
-        alert('خطا در ایجاد محصول!');
+        setSimpleToastData({
+            show: true,
+            message: 'خطا در ایجاد محصول!',
+            status: 'error'
+        });
     }
   }
 

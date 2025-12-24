@@ -10,7 +10,7 @@ import { useState } from "react";
 
 export default function AdminOrderDetailsPageMainContents({ orderDetails } : { orderDetails : Order }) {
 
-    const { theme } = useAdminMainContext();
+    const { theme , setSimpleToastData } = useAdminMainContext();
 
     const router = useRouter();
 
@@ -36,11 +36,33 @@ export default function AdminOrderDetailsPageMainContents({ orderDetails } : { o
     const handleChangeOrderRegisteration = async (orderId : string) => {
 
         if(orderDetails.isRegister == 0){
-            await setNewRegisterationForOrderByOrderId(orderId , orderRegisteration);
+            const result = await setNewRegisterationForOrderByOrderId(orderId , orderRegisteration);
+            setSimpleToastData({
+                show: true,
+                message: result?.status == 200 ? result?.message : result?.response?.data?.message,
+                status: result?.status == 200 ? 'success' : 'error'
+            });
+
+            if(result?.status == 200) {
+                setTimeout(() => {
+                    router.push('/admin/orders');
+                }, 500);
+            }
+
         } else {
-            await changeOrderRegisterationByOrderId(orderId , orderRegisteration);
+            const result = await changeOrderRegisterationByOrderId(orderId , orderRegisteration);
+            setSimpleToastData({
+                show: true,
+                message: result?.status == 200 ? result?.message : result?.response?.data?.message,
+                status: result?.status == 200 ? 'success' : 'error'
+            });
+            
+            if(result?.status == 200) {
+                setTimeout(() => {
+                    router.push('/admin/orders');
+                }, 500);
+            }
         }
-        router.push('/admin/orders');
     }
 
   return (

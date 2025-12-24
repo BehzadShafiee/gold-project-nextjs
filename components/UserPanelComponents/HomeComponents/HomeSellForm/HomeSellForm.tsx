@@ -9,7 +9,7 @@ import { Wallet } from '@/utils/interfaces/customer-interfaces/wallet.interface'
 
 export default function HomeSellForm({ userId , walletProductsList } : { userId : string | undefined , walletProductsList : Wallet}) {
 
-    const { theme } = useUserMainContext();
+    const { theme , setSimpleToastData } = useUserMainContext();
 
     const [buyForm , setBuyForm] = useState({
         order_type: 0, // 0 is for sell
@@ -50,7 +50,12 @@ export default function HomeSellForm({ userId , walletProductsList } : { userId 
     const hadleSetSellOrder = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const result = await submitSellOrderByAxios(buyForm);
-        console.log(result);        
+        
+        setSimpleToastData({
+            show: true,
+            message: result?.status == 200 ? result?.message : result?.response?.data?.message,
+            status: result?.status == 200 ? 'success' : 'error'
+        });
     }
 
   return (

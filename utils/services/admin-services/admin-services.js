@@ -17,37 +17,34 @@ export const checkAdminAuthBySession = async (sessionId) => {
 }
 
 export const SignInAdminByAxios = async (adminData) => {
-  await axios({
-    url: `${adminApiUrl}/admin/sign-in`,
-    withCredentials: true,
-    method: "post",
-    data: adminData
-  })
-    .then((res) => {
-      // return res;
-      window.location.href = '/admin/dashboard';
+  try {
+    const res = await axios({
+      url: `${adminApiUrl}/admin/sign-in`,
+      withCredentials: true,
+      method: "post",
+      data: adminData
     })
-    .catch((err) => {
-      console.log(err);
-      return err;
-    });
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
 };
 
 export const logInAdminByAxios = async (adminData) => {
-  await axios({
-    url: `${adminApiUrl}/admin/log-in`,
-    withCredentials: true,
-    method: "post",
-    data: adminData
-  })
-    .then((res) => {
-      // return res;
-      window.location.href = '/admin/dashboard';
-    })
-    .catch((err) => {
-      console.log(err);
-      return err;
+  try {
+    const res = await axios({
+      url: `${adminApiUrl}/admin/log-in`,
+      withCredentials: true,
+      method: "post",
+      data: adminData
     });
+    return res.data;
+    // window.location.href = '/admin/dashboard';
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
 };
 
 export const logOutAdminByAxios = async (adminId) => {
@@ -105,23 +102,31 @@ export const getOrdersByOrderId = async (orderId) => {
 }
 
 export const setNewRegisterationForOrderByOrderId = async (orderId , registerValue) => {
-  await axios({
-    url: `${adminApiUrl}/orders/register/${orderId}`,
-    method: "post",
-    data: registerValue,
-  })
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
+  try {
+    const res = await axios({
+      url: `${adminApiUrl}/orders/register/${orderId}`,
+      method: "post",
+      data: registerValue,
+    });
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
 };
 
 export const changeOrderRegisterationByOrderId = async (orderId , registerValue) => {
-  await axios({
-    url: `${adminApiUrl}/orders/register/${orderId}`,
-    method: "put",
-    data: registerValue,
-  })
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
+  try {
+    const res = await axios({
+      url: `${adminApiUrl}/orders/register/${orderId}`,
+      method: "put",
+      data: registerValue,
+    });
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
 };
 
 export const getAllProductsByFetch = async () => {
@@ -165,21 +170,29 @@ export const EditProductByAxios = async (productId , productData) => {
 };
 
 export const setNewRegisterationForUser = async (userId , registerValue) => {
-  await axios({
-    url: `${customerApiUrl}/user/register/${userId}`,
-    method: "post",
-    data: registerValue,
-  })
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
+  try {
+    const res = await axios({
+      url: `${customerApiUrl}/user/register/${userId}`,
+      method: "post",
+      data: registerValue,
+    });
+    return res.data; 
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
 };
 
 export const changeUserRegisteration = async (userId , registerValue) => {
-  await axios({
-    url: `${customerApiUrl}/user/register/${userId}`,
-    method: "put",
-    data: registerValue,
-  })
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
+  try {
+    const res = await axios({
+      url: `${customerApiUrl}/user/register/${userId}`,
+      method: "put",
+      data: registerValue,
+    });
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
 };
