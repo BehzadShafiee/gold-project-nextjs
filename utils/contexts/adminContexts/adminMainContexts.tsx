@@ -9,6 +9,14 @@ interface AdminMainContextType {
   setTheme: (value: string) => void;
   openSideBar: boolean;
   setOpenSideBar: (value: boolean) => void;
+  simpleToastData: SimpleToastData;
+  setSimpleToastData: (value : SimpleToastData) => void;
+}
+
+interface SimpleToastData {
+  show: boolean;
+  message : string ,
+  status : string 
 }
 
 const AdminMainContext = createContext<AdminMainContextType | undefined>(undefined);
@@ -19,6 +27,7 @@ export const AdminMainContextProvider: React.FC<{ children: ReactNode }> = ({ ch
 
   const [theme , setTheme] = useState<string>('dark');
   const [openSideBar , setOpenSideBar] = useState<boolean>(false);
+  const [simpleToastData , setSimpleToastData] = useState({show: false, message: '' , status: '' });
 
   return (
     <AdminMainContext.Provider 
@@ -29,7 +38,9 @@ export const AdminMainContextProvider: React.FC<{ children: ReactNode }> = ({ ch
                 theme,
                 setTheme,
                 openSideBar,
-                setOpenSideBar
+                setOpenSideBar,
+                simpleToastData,
+                setSimpleToastData
               }}
     >
       {children}

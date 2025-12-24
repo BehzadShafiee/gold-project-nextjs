@@ -10,7 +10,7 @@ import { useState } from "react";
 
 export default function AdminOrderDetailsPageMainContents({ orderDetails } : { orderDetails : Order }) {
 
-    const { theme } = useAdminMainContext();
+    const { theme , setSimpleToastData } = useAdminMainContext();
 
     const router = useRouter();
 
@@ -19,7 +19,7 @@ export default function AdminOrderDetailsPageMainContents({ orderDetails } : { o
         order_type: orderDetails.order_type,
         orderRegister: orderDetails?.isRegister || 1,
         orderProduct: orderDetails.orderProduct,
-        submit_product: orderDetails.submit_product || 0
+        submit_product: orderDetails.submit_product || 1
     });
 
     const units : string[] = ['گرم','سوت','مثقال'];
@@ -36,11 +36,33 @@ export default function AdminOrderDetailsPageMainContents({ orderDetails } : { o
     const handleChangeOrderRegisteration = async (orderId : string) => {
 
         if(orderDetails.isRegister == 0){
-            await setNewRegisterationForOrderByOrderId(orderId , orderRegisteration);
+            const result = await setNewRegisterationForOrderByOrderId(orderId , orderRegisteration);
+            setSimpleToastData({
+                show: true,
+                message: result?.status == 200 ? result?.message : result?.response?.data?.message,
+                status: result?.status == 200 ? 'success' : 'error'
+            });
+
+            if(result?.status == 200) {
+                setTimeout(() => {
+                    router.push('/admin/orders');
+                }, 500);
+            }
+
         } else {
-            await changeOrderRegisterationByOrderId(orderId , orderRegisteration);
+            const result = await changeOrderRegisterationByOrderId(orderId , orderRegisteration);
+            setSimpleToastData({
+                show: true,
+                message: result?.status == 200 ? result?.message : result?.response?.data?.message,
+                status: result?.status == 200 ? 'success' : 'error'
+            });
+            
+            if(result?.status == 200) {
+                setTimeout(() => {
+                    router.push('/admin/orders');
+                }, 500);
+            }
         }
-        router.push('/admin/orders');
     }
 
   return (
@@ -85,7 +107,7 @@ export default function AdminOrderDetailsPageMainContents({ orderDetails } : { o
                         </select>
                     </div>
 
-                    {
+                    {/* {
                         orderDetails.order_type == 0 ?
                             <div className="h-15 w-full md:w-2/5 border rounded p-2 flex items-center justify-between">
                                 <p>ثبت محصول در انبار:</p>
@@ -95,7 +117,7 @@ export default function AdminOrderDetailsPageMainContents({ orderDetails } : { o
                                 </select>
                             </div>
                         :''                        
-                    }
+                    } */}
                 </div>
                 <button onClick={() => handleChangeOrderRegisteration(orderDetails._id)} className="bg-green-600 text-white px-4 py-2 rounded cursor-pointer transition-all hover:bg-green-700 mt-4">ثبت تغییرات</button>
             </div>

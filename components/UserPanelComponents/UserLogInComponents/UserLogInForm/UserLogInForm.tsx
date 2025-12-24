@@ -8,7 +8,7 @@ import { FormEvent, useState } from "react";
 
 export default function UserLogInForm() {
 
-  const { theme } = useUserMainContext();
+  const { theme , setSimpleToastData } = useUserMainContext();
 
   const [ loginData , setLoginData] = useState({email:'', password:''});
 
@@ -29,9 +29,18 @@ export default function UserLogInForm() {
   const handleSubmitLogin = async (e : FormEvent) => {
     e.preventDefault();
     const result = await logInUserByAxios(loginData);
-    // if(result?.status == 200) {
-    //   window.location.href = '/user/home';
-    // }
+    
+    setSimpleToastData({
+      show: true,
+      message: result?.status == 200 ? result?.message : result?.response?.data?.message,
+      status: result?.status == 200 ? 'success' : 'error'
+    });
+
+    if(result?.status == 200) {
+      setTimeout(() => {
+        window.location.href = '/user/home';
+      }, 1000);
+    }
   }
 
   return (

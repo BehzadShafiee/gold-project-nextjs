@@ -5,14 +5,16 @@ import { Product, ProductAttribute, ProductPrice } from '@/utils/interfaces/admi
 import { EditProductByAxios } from '@/utils/services/admin-services/admin-services';
 import { useAdminMainContext } from '@/utils/contexts/adminContexts/adminMainContexts';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function AdminEditProductMainContentsComponent({ productData } : {productData : Product}) {
 
+  const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState<Product | null>(productData);
   const [attributes, setAttributes] = useState<ProductAttribute[]>([]);
   const [prices, setPrices] = useState<ProductPrice[]>([]);
-  const { theme } = useAdminMainContext();
+  const { theme , setSimpleToastData } = useAdminMainContext();
 
   const operatorOptions = ['none', '+', '-', '*', '/'];
 
@@ -90,10 +92,21 @@ export default function AdminEditProductMainContentsComponent({ productData } : 
 
     try {
       const res = await EditProductByAxios(product._id , payload);
-      alert('محصول با موفقیت ویرایش شد');
+      setSimpleToastData({
+        show: true,
+        message: 'محصول با موفقیت ویرایش شد',
+        status: 'success'
+      });
+      setTimeout(() => {
+        router.push('/admin/products');
+      }, 500);
     } catch (err: unknown) {
       console.error('Error updating product:', err);
-      alert('خطا در ویرایش محصول');
+      setSimpleToastData({
+        show: true,
+        message: 'خطا در ویرایش محصول',
+        status: 'error'
+      });
     }
   }
 

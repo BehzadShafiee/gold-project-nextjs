@@ -21,7 +21,7 @@ export default async function Home() {
 
   return (
     <>
-      <main className="md:w-1/2 shadow-xl mx-auto p-2 rounded-b-md back-gray-light">
+      <main className="md:w-1/2 shadow-2xl mx-auto p-2 rounded-b-md back-gray-light">
         <HomeBuySellSwitchSection productsList={productsList} userId={userId?.value} walletProductsList={walletProductsList}/>
       </main>
     </>

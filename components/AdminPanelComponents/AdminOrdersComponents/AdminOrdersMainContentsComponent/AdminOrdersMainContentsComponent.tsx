@@ -68,7 +68,7 @@ export default function AdminOrdersMainContentsComponent({ ordersList } : {order
                         </tbody>
                     </table>
                     
-                    <PaginationComponent/>
+                    {/* <PaginationComponent/> */}
 
                 </div>
             </div>

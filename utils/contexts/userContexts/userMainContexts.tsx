@@ -9,6 +9,14 @@ interface UserMainContextType {
   setTheme: (value: string) => void;
   openSideBar: boolean;
   setOpenSideBar: (value: boolean) => void;
+  simpleToastData: SimpleToastData;
+  setSimpleToastData: (value : SimpleToastData) => void;
+}
+
+interface SimpleToastData {
+  show: boolean;
+  message : string ,
+  status : string 
 }
 
 const UserMainContext = createContext<UserMainContextType | undefined>(undefined);
@@ -19,6 +27,7 @@ export const UserMainContextProvider: React.FC<{ children: ReactNode }> = ({ chi
 
   const [theme , setTheme] = useState<string>('dark');
   const [openSideBar , setOpenSideBar] = useState<boolean>(false);
+  const [simpleToastData , setSimpleToastData] = useState({show: false, message: '' , status: '' });
 
   return (
     <UserMainContext.Provider 
@@ -29,7 +38,9 @@ export const UserMainContextProvider: React.FC<{ children: ReactNode }> = ({ chi
                 theme,
                 setTheme,
                 openSideBar,
-                setOpenSideBar
+                setOpenSideBar,
+                simpleToastData,
+                setSimpleToastData
               }}
     >
       {children}

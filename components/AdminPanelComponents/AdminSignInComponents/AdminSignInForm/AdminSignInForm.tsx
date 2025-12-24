@@ -8,7 +8,7 @@ import { FormEvent, useState } from "react";
 
 export default function AdminSignInForm() {
 
-  const { theme } = useAdminMainContext();
+  const { theme , setSimpleToastData } = useAdminMainContext();
 
   const [ signinData , setSigninData] = useState({
     adminName: '',
@@ -52,9 +52,19 @@ export default function AdminSignInForm() {
   const handleSubmitSignin = async (e : FormEvent) => {
     e.preventDefault();
     const result = await SignInAdminByAxios(signinData);
-    // if(result?.status == 200) {
-    //   window.location.href = '/admin/dashboard';
-    // }
+
+    setSimpleToastData({
+      show: true,
+      message: result?.status == 200 ? result?.message : result?.response?.data?.message,
+      status: result?.status == 200 ? 'success' : 'error'
+    });
+
+    if(result?.status == 200) {
+      setTimeout(() => {
+        window.location.href = '/admin/dashboard';
+      }, 1000);
+    }
+
   }
 
   return (

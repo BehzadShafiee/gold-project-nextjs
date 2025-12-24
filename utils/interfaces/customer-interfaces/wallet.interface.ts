@@ -3,10 +3,10 @@ export interface Wallet {
     userId : string,
     createdAt : Date,
     updatedAt : Date,
-    products: [Product],
+    products: [WalletProduct],
 }
 
-interface Product {
+export interface WalletProduct {
     _id : string;
     productId : string;
     productName : string;
