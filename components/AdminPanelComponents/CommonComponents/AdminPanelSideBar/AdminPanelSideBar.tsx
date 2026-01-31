@@ -3,7 +3,6 @@
 import { useAdminMainContext } from "@/utils/contexts/adminContexts/adminMainContexts";
 import AdminPanelSideBarAccountSection from "./AdminPanelSideBarAccountSection/AdminPanelSideBarAccountSection";
 import AdminPanelSideBarMenuList from "./AdminPanelSideBarMenuList/AdminPanelSideBarMenuList";
-import { useState } from "react";
 import ArrowLeft from "@/assets/icons/ArrowLeft";
 import ArrowRight from "@/assets/icons/ArrowRight";
 
@@ -13,8 +12,6 @@ export default function AdminPanelSideBar() {
 
   const handleSetOpenSideBar = () => {
     setOpenSideBar(!openSideBar);
-    console.log(openSideBar);
-    
   }
 
   return (

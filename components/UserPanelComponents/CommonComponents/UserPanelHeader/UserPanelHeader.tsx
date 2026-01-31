@@ -9,7 +9,7 @@ import { useState } from 'react';
 
 export default function UserPanelHeader() {
 
-  const { theme , setTheme } = useUserMainContext();
+  const { userData , theme , setTheme } = useUserMainContext();
 
   const [openMenuWrap , setOpenMenuWrap] = useState(false);
   const [openUserWrap , setOpenUserWrap] = useState(false);
@@ -66,7 +66,8 @@ export default function UserPanelHeader() {
         }
       </div>
       
-      <div className="flex gap-4 relative">
+      <div className="flex items-center gap-4 relative">
+        <h4 className='align-middle'>{userData}</h4>
         <button onClick={() => handleSetOpenUserWrap() } className='cursor-pointer hover:scale-105 transition-all'>
           <Person width={35} height={35} color='#d0a12b'/>
         </button>
@@ -77,7 +78,7 @@ export default function UserPanelHeader() {
         
         {
           openUserWrap &&
-            <div className={`w-30 absolute top-10 left-1/2 p-2 rounded-lg ${theme == 'light' ? 'shadow-2xl' : 'shadow shadow-white'} back-theme-${theme} z-100`}>
+            <div className={`w-30 absolute top-10 left-1/4 p-2 rounded-lg ${theme == 'light' ? 'shadow-2xl' : 'shadow shadow-white'} back-theme-${theme} z-100`}>
               <Link prefetch={false} href='#' className='py-2 block'>تنظیمات</Link>
               <hr/>
               <Link prefetch={false} href='/user/log-out' className='py-2 block'>خروج</Link>

@@ -1,10 +1,13 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 'use client'
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 interface UserMainContextType {
   // pageTitle: string;
   // setPageTitle: (value: string) => void;
+  userData: string;
+  setUserData: (value: string) => void;
   theme: string;
   setTheme: (value: string) => void;
   openSideBar: boolean;
@@ -26,8 +29,25 @@ export const UserMainContextProvider: React.FC<{ children: ReactNode }> = ({ chi
   // const [pageTitle , setPageTitle] = useState<string>('پنل مدیریت');
 
   const [theme , setTheme] = useState<string>('dark');
+  const [userData , setUserData] = useState<string>('. . .');
   const [openSideBar , setOpenSideBar] = useState<boolean>(false);
   const [simpleToastData , setSimpleToastData] = useState({show: false, message: '' , status: '' });
+
+  useEffect(() => {
+      const savedTheme = localStorage.getItem("goldSavedUserTheme");
+      if (savedTheme) {
+        setTheme(savedTheme);
+      }
+      const savedUser = localStorage.getItem("goldUserName");
+      if (savedUser) {
+        setUserData(savedUser);
+      }
+  }, []);
+  
+  useEffect(() => {
+    localStorage.setItem("goldSavedUserTheme", theme);
+    localStorage.setItem("goldUserName", userData);
+  }, [theme , userData]);
 
   return (
     <UserMainContext.Provider 
@@ -37,6 +57,8 @@ export const UserMainContextProvider: React.FC<{ children: ReactNode }> = ({ chi
 
                 theme,
                 setTheme,
+                userData,
+                setUserData,
                 openSideBar,
                 setOpenSideBar,
                 simpleToastData,

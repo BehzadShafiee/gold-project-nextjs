@@ -1,12 +1,12 @@
 
 import UsersDetailsPageMainContents from "@/components/AdminPanelComponents/UsersDetailsPageComponents/UsersDetailsPageMainContents/UsersDetailsPageMainContents";
-import { getUsersByUserId } from "@/utils/services/admin-services/admin-services"
+import { getUserByUserId } from "@/utils/services/admin-services/admin-services"
 
 export default async function user({ params } : { params : Promise<{userId : string}> }) {
 
     const { userId } = await params;
 
-    const userData = await getUsersByUserId(userId);
+    const userData = await getUserByUserId(userId);
 
     return (
         <>

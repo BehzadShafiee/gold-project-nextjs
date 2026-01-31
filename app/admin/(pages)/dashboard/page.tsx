@@ -7,6 +7,7 @@ import Link from "next/link";
 import OrderIcon from "@/assets/icons/OrderIcon";
 import Dollar from "@/assets/icons/Dollar";
 import Gold from "@/assets/icons/Gold";
+import AdminDashboardLastOrdersComponent from "@/components/AdminPanelComponents/AdminDashboardComponents/AdminDashboardLastOrdersComponent/AdminDashboardLastOrdersComponent";
 
 export default function AdminDashboard() {
 
@@ -63,75 +64,12 @@ export default function AdminDashboard() {
           </div>
         </div>
 
+        <AdminDashboardLastOrdersComponent/>
+
         <div className='w-11/12 mt-10 mx-auto p-3 rounded-lg border text-center'>
           <p>کل معاملات امروز</p>
           <div className="border-t p-2 mt-4">
             <AdminDashboardChartComponent/>
-          </div>
-        </div>
-
-        <div className='w-11/12 mt-10 mx-auto p-3 rounded-lg border text-center'>
-          <p>لیست آخرین معاملات</p>
-          <div className={`p-2 mt-4 overflow-auto ${theme == 'light' ? 'border-t' : 'border rounded'}`}>
-            <table className="w-full min-w-max table-auto">
-              <thead>
-                <tr className="border-b-2">
-                  <th className="p-2">ردیف</th>
-                  <th className="p-2">نوع معامله</th>
-                  <th className="p-2">حجم معامله</th>
-                  <th className="p-2">مبلغ کل</th>
-                  <th className="p-2">قیمت هر واحد</th>
-                  <th className="p-2">تاریخ</th>
-                  <th className="p-2">جزئیات</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="even:bg-[#c9bfae] even:text-[#48514b]">
-                  <td className="p-2">۱</td>
-                  <td className="p-2">خرید</td>
-                  <td className="p-2">۱۰ گرم</td>
-                  <td className="p-2">۱۰۰۰ تومان</td>
-                  <td className="p-2">۱۰۰ تومان</td>
-                  <td className="p-2">۱۴۰۴/۱۲/۱۲</td>
-                  <td className="p-2">
-                    <Link prefetch={false} href='#' className="border-b hover:text-[#e2d9ca]">مشاهده</Link>
-                  </td>
-                </tr>
-                <tr className="even:bg-[#c9bfae] even:text-[#48514b]">
-                  <td className="p-2">۱</td>
-                  <td className="p-2">خرید</td>
-                  <td className="p-2">۱۰ گرم</td>
-                  <td className="p-2">۱۰۰۰ تومان</td>
-                  <td className="p-2">۱۰۰ تومان</td>
-                  <td className="p-2">۱۴۰۴/۱۲/۱۲</td>
-                  <td className="p-2">
-                    <Link prefetch={false} href='#' className="border-b hover:text-[#e2d9ca]">مشاهده</Link>
-                  </td>
-                </tr>
-                <tr className="even:bg-[#c9bfae] even:text-[#48514b]">
-                  <td className="p-2">۱</td>
-                  <td className="p-2">خرید</td>
-                  <td className="p-2">۱۰ گرم</td>
-                  <td className="p-2">۱۰۰۰ تومان</td>
-                  <td className="p-2">۱۰۰ تومان</td>
-                  <td className="p-2">۱۴۰۴/۱۲/۱۲</td>
-                  <td className="p-2">
-                    <Link prefetch={false} href='#' className="border-b hover:text-[#e2d9ca]">مشاهده</Link>
-                  </td>
-                </tr>
-                <tr className="even:bg-[#c9bfae] even:text-[#48514b]">
-                  <td className="p-2">۱</td>
-                  <td className="p-2">خرید</td>
-                  <td className="p-2">۱۰ گرم</td>
-                  <td className="p-2">۱۰۰۰ تومان</td>
-                  <td className="p-2">۱۰۰ تومان</td>
-                  <td className="p-2">۱۴۰۴/۱۲/۱۲</td>
-                  <td className="p-2">
-                    <Link prefetch={false} href='#' className="p-0 border-b hover:text-[#e2d9ca]">مشاهده</Link>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
           </div>
         </div>
 

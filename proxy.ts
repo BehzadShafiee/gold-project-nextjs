@@ -7,6 +7,7 @@ import { checkAdminAuthBySession, logOutAdminByAxios } from './utils/services/ad
 export async function proxy(req: NextRequest) {
   const cookieStore = await cookies();
   const userSessionId = cookieStore.get('userSessionId');
+  const userId = cookieStore.get('userId');
   const adminSessionId = cookieStore.get('adminSessionId');
 
   const { pathname } = req.nextUrl;
@@ -24,29 +25,33 @@ export async function proxy(req: NextRequest) {
   const isAdminLogout = pathname == '/admin/log-out';
 
   if (isUserRoute) {
-    if (isUserLogout && userSessionId) {
-      const userSession = await checkUserAuthBySession(userSessionId.value);
-      if (userSession?.status == 200 || userSession != 'not-authorized') {
+    if (isUserLogout && userSessionId && userId) {
+      const userSession = await checkUserAuthBySession(userSessionId.value , userId.value);
+      if (userSession?.status == 200 || (userSession.isAuthorized != 'not-authorized' && userSession.isAuthorized != 'not-registered')) {
         await logOutUserByAxios(userSession.userId);
         cookieStore.delete('userSessionId');
         cookieStore.delete('userId');
       }
-      // const loginUrl = new URL('/user/log-in', req.url);
-      // return NextResponse.redirect(loginUrl);
-    }
-
-    if (!userSessionId && !isUserException) {
       const loginUrl = new URL('/user/log-in', req.url);
       return NextResponse.redirect(loginUrl);
     }
 
-    if (userSessionId) {
-      const userSession = await checkUserAuthBySession(userSessionId.value);
-      if (userSession?.status == 200 && isUserException) {
+    if ((!userSessionId || !userId) && !isUserException) {
+      cookieStore.delete('userSessionId');
+      cookieStore.delete('userId');
+      const loginUrl = new URL('/user/log-in', req.url);
+      return NextResponse.redirect(loginUrl);
+    }
+
+    if (userSessionId && userId) {
+      const userSession = await checkUserAuthBySession(userSessionId.value , userId.value);
+      if (userSession?.status == 200 && (userSession.isAuthorized != 'not-authorized' && userSession.isAuthorized != 'not-registered') && isUserException) {
         const homeUrl = new URL('/user/home', req.url);
         return NextResponse.redirect(homeUrl);
       }
-      if (userSession?.status == 401 && !isUserException) {
+      if (userSession?.status == 401 && (userSession?.isAuthorized == 'not-authorized' || userSession?.isAuthorized == 'not-registered') && !isUserException) {
+        cookieStore.delete('userSessionId');
+        cookieStore.delete('userId');
         const loginUrl = new URL('/user/log-in', req.url);
         return NextResponse.redirect(loginUrl);
       }
@@ -61,8 +66,8 @@ export async function proxy(req: NextRequest) {
         cookieStore.delete('adminSessionId');
         cookieStore.delete('adminId');
       }
-      // const loginUrl = new URL('/admin/log-in', req.url);
-      // return NextResponse.redirect(loginUrl);
+      const loginUrl = new URL('/admin/log-in', req.url);
+      return NextResponse.redirect(loginUrl);
     }
 
     if (!adminSessionId && !isAdminException) {
@@ -72,11 +77,11 @@ export async function proxy(req: NextRequest) {
 
     if (adminSessionId) {
       const adminSession = await checkAdminAuthBySession(adminSessionId.value);
-      if (adminSession?.status == 200 && isAdminException) {
+      if (adminSession?.status == 200 && isAdminException) {        
         const dashboardUrl = new URL('/admin/dashboard', req.url);
         return NextResponse.redirect(dashboardUrl);
       }
-      if (adminSession?.status == 401 && !isAdminException) {
+      if (adminSession?.status == 401 && adminSession?.isAuthorized == 'not-authorized' && !isAdminException) {
         const loginUrl = new URL('/admin/log-in', req.url);
         return NextResponse.redirect(loginUrl);
       }

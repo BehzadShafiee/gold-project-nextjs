@@ -8,14 +8,14 @@ import { useAdminMainContext } from "@/utils/contexts/adminContexts/adminMainCon
 
 export default function AdminPanelSideBarAccountSection() {
 
-  const {openSideBar , setOpenSideBar} = useAdminMainContext();
+  const {adminData , setOpenSideBar} = useAdminMainContext();
 
   return (
     <>
         <div className="p-2 w-full border rounded">
             <div className="flex flex-col items-center justify-center">
                 <Person width={45} height={45} color="#d0a12b" />
-                <p>ادمین تست</p>
+                <p>{adminData}</p>
                 <div className="w-full border-b-2 my-2"/>
                 <div className="flex items-center justify-center w-full">
                     <Link onClick={() => setOpenSideBar(false)} prefetch={false} href='/admin/settings' className="flex items-center justify-center gap-2 w-1/2 border-l-2">

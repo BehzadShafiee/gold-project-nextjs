@@ -8,7 +8,7 @@ import { FormEvent, useState } from "react";
 
 export default function AdminLogInForm() {
 
-  const { theme , setSimpleToastData } = useAdminMainContext();
+  const { setAdminData , theme , setSimpleToastData } = useAdminMainContext();
 
   const [ loginData , setLoginData] = useState({email:'', password:''});
 
@@ -37,6 +37,7 @@ export default function AdminLogInForm() {
     });
 
     if(result?.status == 200) {
+      setAdminData(result?.admin?.adminName);
       setTimeout(() => {
         window.location.href = '/admin/dashboard';
       }, 1000);

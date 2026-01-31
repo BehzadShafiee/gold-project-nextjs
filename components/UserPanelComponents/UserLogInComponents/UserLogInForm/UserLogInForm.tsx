@@ -8,7 +8,7 @@ import { FormEvent, useState } from "react";
 
 export default function UserLogInForm() {
 
-  const { theme , setSimpleToastData } = useUserMainContext();
+  const { setUserData , theme , setSimpleToastData } = useUserMainContext();
 
   const [ loginData , setLoginData] = useState({email:'', password:''});
 
@@ -37,6 +37,7 @@ export default function UserLogInForm() {
     });
 
     if(result?.status == 200) {
+      setUserData(result?.user?.username);
       setTimeout(() => {
         window.location.href = '/user/home';
       }, 1000);

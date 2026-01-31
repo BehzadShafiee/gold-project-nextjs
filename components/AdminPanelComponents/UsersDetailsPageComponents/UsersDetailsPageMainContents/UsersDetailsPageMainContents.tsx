@@ -16,11 +16,16 @@ export default function UsersDetailsPageMainContents({ userDetails } : {userDeta
     const [userRegisterValue , setUserRegisterValue] = useState({
         userId: userDetails?._id,
         email: userDetails?.email,
-        userRegister : userDetails?.userRegister || 1
+        userRegister : userDetails?.userRegister || 1,
+        userLevel : userDetails?.userLevel || 0
     });
     
     const handleSetUserRegisterValue = (e : React.ChangeEvent<HTMLSelectElement>) => {
         setUserRegisterValue({...userRegisterValue , userRegister : Number(e.target.value)});
+    }
+    
+    const handleSetUserLevel = (e : React.ChangeEvent<HTMLSelectElement>) => {
+        setUserRegisterValue({...userRegisterValue , userLevel : Number(e.target.value)});
     }
 
     const handleChangeUserRegisteration = async (userId : string) => {        
@@ -92,6 +97,16 @@ export default function UsersDetailsPageMainContents({ userDetails } : {userDeta
                     <div className="h-15 w-full md:w-2/5 border rounded p-2 flex items-center justify-between">
                         <p>وضعیت تایید ادمین:</p>
                         <p>{userDetails.userRegister == 1 ? 'عدم تایید' : userDetails.userRegister == 2 ? 'تایید شده' : 'در انتظار تایید'}</p>
+                    </div>
+                    <div className="h-15 w-full md:w-2/5 border rounded p-2 flex items-center justify-between">
+                        <p>نوع مشتری:</p>
+                        <select onChange={(e) => handleSetUserLevel(e)} value={userRegisterValue.userLevel} className={`border border-gray-300 rounded-lg ${theme == 'light' ? 'color-black-light' : ''} `}>
+                            <option value={0}>مشتری عادی</option>
+                            <option value={1}>مشتری برنزی</option>
+                            <option value={2}>مشتری نقره ای</option>
+                            <option value={3}>مشتری طلایی</option>
+                            <option value={4}>همکار</option>
+                        </select>
                     </div>
                     <div className="h-15 w-full md:w-2/5 border rounded p-2 flex items-center justify-between">
                         <p>تاریخ تایید ادمین:</p>

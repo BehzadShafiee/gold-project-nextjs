@@ -6,7 +6,6 @@ import HomeStyles from '@/assets/styles/pages/home.module.css';
 import { FormEvent, useState } from 'react';
 import { useUserMainContext } from '@/utils/contexts/userContexts/userMainContexts';
 import { Wallet, WalletProduct } from '@/utils/interfaces/customer-interfaces/wallet.interface';
-import { Product } from '@/utils/interfaces/admin-interfaces/product.interface';
 
 export default function HomeSellForm({ userId , walletProductsList } : { userId : string | undefined , walletProductsList : Wallet}) {
 
@@ -15,6 +14,7 @@ export default function HomeSellForm({ userId , walletProductsList } : { userId 
     const [buyForm , setBuyForm] = useState({
         order_type: 0, // 0 is for sell
         user_id: userId,
+        product_id:'',
         product_name:'',
         weight_value:'',
         weight_unit:'',
@@ -24,6 +24,10 @@ export default function HomeSellForm({ userId , walletProductsList } : { userId 
 
     const [selectedProduct , setSelectedProduct] = useState<WalletProduct | null>(null);
 
+    const currencyList : { [key: string]: string } = {'IRT':'تومان','IRR':'ریال','USD':'دلار'};
+    const unitsList : { [key: string]: string } = {'item':'عدد','gr':'گرم','mithqal':'مثقال','miliGram':'سوت'};
+    const priceUnitsList : { [key: string]: string } = {'perGram':'هر گرم','perMithqal':'هر مثقال','perMiliGram':'هر سوت','perItem':'هر عدد','perTotal':'کل'};
+
     const handleSetSelectedProduct = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const product = walletProductsList.products.find(
             (p) => p.productId == e.target.value
@@ -32,11 +36,11 @@ export default function HomeSellForm({ userId , walletProductsList } : { userId 
         if (!product) return;
 
         setSelectedProduct(product);
-// console.log(product);
 
         setBuyForm((prev) => ({
             ...prev,
-            selected_product: product.productId,
+            product_id: e.target.value,
+            product_name: product.productName,
             weight_value: product.amount,
             weight_unit: product.unit,
             price_value: product.totalPrice.toString(),
@@ -51,7 +55,7 @@ export default function HomeSellForm({ userId , walletProductsList } : { userId 
         const isNum = regex.test(value);
 
         // if(isNum || value == ''){
-            value = value.toString();
+            // value = value.toString();
             // switch (type) {
             //     case 'product_name':
             //         setBuyForm({...buyForm ,  product_name: value});
@@ -85,10 +89,21 @@ export default function HomeSellForm({ userId , walletProductsList } : { userId 
             ...prev,
             [keyName]: value.toString(),
         }));
-
+        
+    }
+    
+    const handleSetTotalItemFromWalletForBuy = () => {
+        if(selectedProduct){
+            const totalItemAmount = convertNumbersToEnglish(selectedProduct?.totalPrice) * convertNumbersToEnglish(selectedProduct?.amount);
+            setBuyForm((prev) => ({
+                ...prev,
+                'price_value': totalItemAmount,
+            }));
+        }
     }
 
     const hadleSetSellOrder = async (e: FormEvent<HTMLFormElement>) => {
+        
         e.preventDefault();
         const result = await submitSellOrderByAxios(buyForm);
         
@@ -96,6 +111,16 @@ export default function HomeSellForm({ userId , walletProductsList } : { userId 
             show: true,
             message: result?.status == 200 ? result?.message : result?.response?.data?.message,
             status: result?.status == 200 ? 'success' : 'error'
+        });
+
+        setBuyForm({
+            order_type: 0,
+            user_id: userId,
+            product_id:'',
+            product_name:'',
+            weight_value:'',
+            weight_unit:'',
+            price_value:'',
         });
     }
 
@@ -153,16 +178,16 @@ export default function HomeSellForm({ userId , walletProductsList } : { userId 
             <div className={`w-full rounded-lg back-theme-${theme} p-2`}>
                 <div className={`${HomeStyles.home_buy_form_price_section} w-full relative`}>
                     <div className={`flex items-center justify-between back-theme-${theme}`}>
-                        <div className={`z-2 back-theme-${theme} pl-2`}>قیمت فروش</div>
-                        {/* <div className={`z-2 back-theme-${theme} pr-2`}>{convertNumbersToPersian(selectedProduct?.totalPrice)} <small>{selectedProduct?.currency} </small></div> */}
-                        <div className={`z-2 back-theme-${theme} pr-2`}>۱۰۰۰۰ <small>ریال </small></div>
+                        <div className={`z-2 back-theme-${theme} pl-2`}>قیمت فروش {selectedProduct?.productName}</div>
+                        <div className={`z-2 back-theme-${theme} pr-2`}>{convertNumbersToPersian(selectedProduct?.totalPrice) || '۰'} <small>{currencyList[selectedProduct?.currency]} </small></div>
+                        {/* <div className={`z-2 back-theme-${theme} pr-2`}>۱۰۰۰۰ <small>ریال </small></div> */}
                     </div>
                 </div>
                 <br/>
                 <div className={`${HomeStyles.home_buy_form_price_section} w-full relative`}>
                     <div className={`flex items-center justify-between back-theme-${theme}`}>
-                        <div className={`z-2 back-theme-${theme} pl-2`}>موجودی طلای شما</div>
-                        <div className={`z-2 back-theme-${theme} pr-2`}>۵۰<small>گرم </small></div>
+                        <div className={`z-2 back-theme-${theme} pl-2`}>موجودی {selectedProduct?.productName && selectedProduct?.productName + ' کیف پول'}</div>
+                        <div className={`z-2 back-theme-${theme} pr-2`}>{convertNumbersToPersian(selectedProduct?.amount) || '۰'} <small>{unitsList[selectedProduct?.unit]} </small></div>
                     </div>
                 </div>
             </div>
@@ -178,21 +203,23 @@ export default function HomeSellForm({ userId , walletProductsList } : { userId 
                     className={`w-4/5 border-l-2 border-white ${theme == 'light' ? 'color-black-light' : ''} font-bold p-2 focus:border-l-2`}
                     placeholder='مبلغ مورد نظر ...'
                 />
-                <button type='button' className={`w-1/5 ${theme == 'light' ? 'back-gray-light color-black-light' : ''} cursor-pointer`}>کل موجودی</button>
+                <button
+                    onClick={() => handleSetTotalItemFromWalletForBuy()}
+                    type='button' className={`w-1/5 ${theme == 'light' ? 'back-gray-light color-black-light' : ''} cursor-pointer`}>کل موجودی</button>
             </div>
             <br/>
             <div className={`w-full rounded-lg back-theme-${theme} p-2`}>
                 <div className={`${HomeStyles.home_buy_form_price_section} w-full relative`}>
                     <div className={`flex items-center justify-between back-theme-${theme}`}>
                         <div className={`z-2 back-theme-${theme} pl-2`}>کارمزد فروش</div>
-                        <div className={`z-2 back-theme-${theme} pr-2`}>۱,۰۰۰ <small>تومان </small></div>
+                        <div className={`z-2 back-theme-${theme} pr-2`}>{convertNumbersToPersian(buyForm.price_value * 0.01) || '۰'} <small>تومان </small></div>
                     </div>
                 </div>
                 <br/>
                 <div className={`${HomeStyles.home_buy_form_price_section} w-full relative`}>
                     <div className={`flex items-center justify-between back-theme-${theme}`}>
                         <div className={`z-2 back-theme-${theme} pl-2 ${theme == 'light' ? 'color-black-light' : ''}`}>مبلغ نهایی</div>
-                        <div className={`z-2 back-theme-${theme} pr-2 font-bold font-18 ${theme == 'light' ? 'color-black-light' : ''}`}>۵۰,۰۰۰,۰۰۰<small className={`${theme == 'light' ? 'color-black-light' : ''} font-14`}> تومان</small></div>
+                        <div className={`z-2 back-theme-${theme} pr-2 font-bold font-18 ${theme == 'light' ? 'color-black-light' : ''}`}>{convertNumbersToPersian(buyForm.price_value) || '۰'}<small className={`${theme == 'light' ? 'color-black-light' : ''} font-14`}> تومان</small></div>
                     </div>
                 </div>
             </div>

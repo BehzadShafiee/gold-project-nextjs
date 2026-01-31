@@ -8,7 +8,7 @@ import { FormEvent, useState } from "react";
 
 export default function AdminSignInForm() {
 
-  const { theme , setSimpleToastData } = useAdminMainContext();
+  const { setAdminData , theme , setSimpleToastData } = useAdminMainContext();
 
   const [ signinData , setSigninData] = useState({
     adminName: '',
@@ -60,6 +60,7 @@ export default function AdminSignInForm() {
     });
 
     if(result?.status == 200) {
+      setAdminData(result?.admin?.adminName);
       setTimeout(() => {
         window.location.href = '/admin/dashboard';
       }, 1000);

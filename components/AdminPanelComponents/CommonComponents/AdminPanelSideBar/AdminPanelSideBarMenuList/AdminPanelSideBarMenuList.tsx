@@ -13,7 +13,7 @@ import { useState } from "react";
 
 export default function AdminPanelSideBarMenuList() {
 
-    const {openSideBar , setOpenSideBar} = useAdminMainContext();
+    const {setOpenSideBar} = useAdminMainContext();
 
     const [openMenuItem , setOpenMenuItem] = useState(false);
 

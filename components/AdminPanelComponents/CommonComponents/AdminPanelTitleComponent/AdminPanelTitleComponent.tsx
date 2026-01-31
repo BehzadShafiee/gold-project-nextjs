@@ -35,6 +35,10 @@ export default function AdminPanelTitleComponent() {
       title: 'ویرایش محصول'
     },
     {
+      name: 'product/price-changes',
+      title: 'تغییرات قیمت محصول'
+    },
+    {
       name: 'treasury',
       title: 'خزانه'
     },
@@ -45,6 +49,10 @@ export default function AdminPanelTitleComponent() {
     {
       name: 'user',
       title: 'اطلاعات مشتری'
+    },
+    {
+      name: 'user/orders-list',
+      title: 'لیست معاملات مشتری'
     },
     {
       name: 'users',
