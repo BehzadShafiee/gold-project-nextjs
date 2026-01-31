@@ -1,10 +1,10 @@
 import axios from "axios";
 
-// const adminApiUrl = "http://localhost:3001/admin/api";
-// const customerApiUrl = "http://localhost:3001/user/api";
+const adminApiUrl = "http://localhost:3001/admin/api";
+const customerApiUrl = "http://localhost:3001/user/api";
 
-const adminApiUrl = "http://192.168.41.42:3001/admin/api";
-const customerApiUrl = "http://192.168.41.42:3001/user/api";
+// const adminApiUrl = "http://192.168.41.42:3001/admin/api";
+// const customerApiUrl = "http://192.168.41.42:3001/user/api";
 
 export const checkAdminAuthBySession = async (sessionId) => {
   try {
@@ -48,17 +48,18 @@ export const logInAdminByAxios = async (adminData) => {
 };
 
 export const logOutAdminByAxios = async (adminId) => {
-  await axios({
-    url: `${customerApiUrl}/admin/log-out`,
+  try {
+    const res = await axios({
+    url: `${adminApiUrl}/admin/log-out`,
     withCredentials: true,
     method: "put",
     data: { "adminId" : adminId }
-  })
-    .then((res) => {
-      // console.log(res)
-      window.location.href = '/admin/log-in';
-    })
-    .catch((err) => console.log(err));
+  });
+  return res.data;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
 };
 
 export const getAllUsersByFetch = async () => {
@@ -71,9 +72,19 @@ export const getAllUsersByFetch = async () => {
   }
 }
 
-export const getUsersByUserId = async (userId) => {
+export const getUserByUserId = async (userId) => {
   try {
     const data = await fetch(`${customerApiUrl}/user/${userId}` , { cache: 'no-store' });
+    return data.json();
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+}
+
+export const getUserOrdersListByUserId = async (userId) => {
+  try {
+    const data = await fetch(`${customerApiUrl}/user/orders-list/${userId}` , { cache: 'no-store' });
     return data.json();
   } catch (error) {
     console.log(error);
@@ -90,6 +101,16 @@ export const getAllOrdersByFetch = async () => {
     return error;
   }
 }
+
+export const getAllNewOrdersByFetch = async (limit) => {
+  try {
+    const data = await fetch(`${adminApiUrl}/orders/new-orders-list/${limit}` , { cache: 'no-store' });
+    return data.json();
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
 
 export const getOrdersByOrderId = async (orderId) => {
   try {
@@ -142,6 +163,16 @@ export const getAllProductsByFetch = async () => {
 export const getProductByProductId = async (productId) => {
   try {
     const data = await fetch(`${adminApiUrl}/products/${productId}` , { cache: 'no-store' });
+    return data.json();
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+}
+
+export const getSingleProductPriceChanges = async (productId) => {
+  try {
+    const data = await fetch(`${adminApiUrl}/products/price-changes/${productId}` , { cache: 'no-store' });
     return data.json();
   } catch (error) {
     console.log(error);

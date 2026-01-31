@@ -11,6 +11,7 @@ export interface Product {
     createdAt: string;
     details: ProductDetails;
     prices: ProductPrice[];
+    priceTolerance: number;
 }
 
 export interface ProductAttribute {

@@ -20,8 +20,8 @@ export default function HomeBuyForm({ userId , productsList } : { userId : strin
         weight_value:'',
         weight_unit: '',
         price_value:'',
-        // currency: selectedProduct?.currency || 'rial'
-        currency: 'rial'
+        // currency: selectedProduct?.currency || 'IRR'
+        currency: 'IRR'
     });
 
     const currencyList : { [key: string]: string } = {'IRT':'تومان','IRR':'ریال','USD':'دلار'};
@@ -40,24 +40,29 @@ export default function HomeBuyForm({ userId , productsList } : { userId : strin
         const regex = /^[0-9]+(\.[0-9]+)?$/;
         const isNum = regex.test(value);
 
+        setBuyForm((prev) => ({
+            ...prev,
+            [type]: value.toString(),
+        }));
+
         // if(isNum || value == ''){
-            value = value.toString();
-            switch (type) {
-                case 'selected_product':
-                    setBuyForm({...buyForm ,  selected_product: value});
-                    break;
-                case 'weight_value':
-                    setBuyForm({...buyForm ,  weight_value: value});
-                    break;
-                case 'weight_unit':
-                    setBuyForm({...buyForm , weight_unit: value});
-                    break;
-                case 'price_value':
-                    setBuyForm({...buyForm , price_value: value});
-                    break;
-                default:
-                    break;
-            }
+            // value = value.toString();
+            // switch (type) {
+            //     case 'selected_product':
+            //         setBuyForm({...buyForm ,  selected_product: value});
+            //         break;
+            //     case 'weight_value':
+            //         setBuyForm({...buyForm ,  weight_value: value});
+            //         break;
+            //     case 'weight_unit':
+            //         setBuyForm({...buyForm , weight_unit: value});
+            //         break;
+            //     case 'price_value':
+            //         setBuyForm({...buyForm , price_value: value});
+            //         break;
+            //     default:
+            //         break;
+            // }
         // }
 
     }
@@ -137,13 +142,13 @@ export default function HomeBuyForm({ userId , productsList } : { userId : strin
             <div className={`${HomeStyles.home_buy_form_price_section} rounded-lg back-theme-${theme} mx-auto text-center p-3 relative w-full`}>
                 <div className={`flex items-center justify-between back-theme-${theme}`}>
                     <div className={`z-2 back-theme-${theme} pl-2`}>کل موجودی {selectedProduct?.name}</div>
-                    <div className={`z-2 back-theme-${theme} pr-2 font-bold font-18`}>{convertNumbersToPersian(selectedProduct?.weightOrNumber)}<small> {selectedProduct?.unit && unitsList[selectedProduct?.unit]}</small></div>
+                    <div className={`z-2 back-theme-${theme} pr-2 font-bold font-18`}>{convertNumbersToPersian(selectedProduct?.weightOrNumber) || '۰'}<small> {selectedProduct?.unit && unitsList[selectedProduct?.unit]}</small></div>
                 </div>
             </div>
             <div className={`${HomeStyles.home_buy_form_price_section} rounded-lg back-theme-${theme} mx-auto text-center p-3 relative w-full`}>
                 <div className={`flex items-center justify-between back-${theme}`}>
                     <div className={`z-2 back-theme-${theme} pl-2`}>قیمت {selectedProduct?.prices && priceUnitsList[selectedProduct?.prices[0]?.priceUnit]}</div>
-                    <div className={`z-2 back-theme-${theme} pr-2 font-bold font-18`}>{convertNumbersToPersian(selectedProduct?.prices[0]?.calculatedPrice)}<small> {selectedProduct?.prices && currencyList[selectedProduct?.prices[0]?.currency]}</small></div>
+                    <div className={`z-2 back-theme-${theme} pr-2 font-bold font-18`}>{convertNumbersToPersian(selectedProduct?.prices[0]?.calculatedPrice) || '۰'}<small> {selectedProduct?.prices && currencyList[selectedProduct?.prices[0]?.currency]}</small></div>
                 </div>
             </div>
             <br/>

@@ -1,10 +1,13 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 'use client'
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 interface AdminMainContextType {
   // pageTitle: string;
   // setPageTitle: (value: string) => void;
+  adminData: string;
+  setAdminData: (value: string) => void;
   theme: string;
   setTheme: (value: string) => void;
   openSideBar: boolean;
@@ -26,8 +29,25 @@ export const AdminMainContextProvider: React.FC<{ children: ReactNode }> = ({ ch
   // const [pageTitle , setPageTitle] = useState<string>('پنل مدیریت');
 
   const [theme , setTheme] = useState<string>('dark');
+  const [adminData , setAdminData] = useState<string>('. . .');
   const [openSideBar , setOpenSideBar] = useState<boolean>(false);
   const [simpleToastData , setSimpleToastData] = useState({show: false, message: '' , status: '' });
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("goldSavedAdminTheme");
+    if (savedTheme) {
+      setTheme(savedTheme);
+    }
+    const savedAdmin = localStorage.getItem("goldAdminName");
+    if (savedAdmin) {
+      setAdminData(savedAdmin);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("goldSavedAdminTheme", theme);
+    localStorage.setItem("goldAdminName", adminData);
+  }, [theme , adminData]);
 
   return (
     <AdminMainContext.Provider 
@@ -37,6 +57,8 @@ export const AdminMainContextProvider: React.FC<{ children: ReactNode }> = ({ ch
 
                 theme,
                 setTheme,
+                adminData,
+                setAdminData,
                 openSideBar,
                 setOpenSideBar,
                 simpleToastData,

@@ -9,6 +9,8 @@ export default function UsersListPageMainContents({ usersList } : { usersList : 
 
     const { theme } = useAdminMainContext();
 
+    const userLevelNames = ['مشتری عادی', 'مشتری برنزی', 'مشتری نقره ای', 'مشتری طلایی', 'همکار'];
+
   return (
     <>
         <div className={`p-2 w-full min-h-screen rounded back-theme-${theme}`}>
@@ -25,7 +27,9 @@ export default function UsersListPageMainContents({ usersList } : { usersList : 
                                 <th className="p-2">مبلغ شماره موبایل</th>
                                 <th className="p-2">استان / شهر</th>
                                 <th className="p-2">تاریخ عضویت</th>
+                                <th className="p-2">نوع مشتری</th>
                                 <th className="p-2">وضعیت تایید</th>
+                                <th className="p-2">لیست سفارشات</th>
                                 <th className="p-2">جزئیات</th>
                             </tr>
                         </thead>
@@ -41,6 +45,7 @@ export default function UsersListPageMainContents({ usersList } : { usersList : 
                                             <td className="p-2">{user.mobile}</td>
                                             <td className="p-2">{user.province} - {user.city}</td>
                                             <td dir="ltr" className="p-2">{convertDateToPersian(user.createdAt)}</td>
+                                            <td className="p-2">{userLevelNames[user.userLevel]}</td>
                                             <td className="p-2">
                                                 {
                                                     user.userRegister == 2 ? 
@@ -50,6 +55,9 @@ export default function UsersListPageMainContents({ usersList } : { usersList : 
                                                     :
                                                         <span>در انتظار تایید</span>
                                                 }
+                                            </td>
+                                            <td>
+                                                <Link prefetch={false} href={`/admin/user/orders-list/${user._id}`} className="border-b hover:text-[#e2d9ca]">مشاهده</Link>
                                             </td>
                                             <td>
                                                 <Link prefetch={false} href={`/admin/user/${user._id}`} className="border-b hover:text-[#e2d9ca]">مشاهده</Link>

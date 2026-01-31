@@ -8,7 +8,7 @@ import { FormEvent, useState } from "react";
 
 export default function UserSignInForm() {
 
-  const { theme  , setSimpleToastData } = useUserMainContext();
+  const { setUserData , theme  , setSimpleToastData } = useUserMainContext();
 
   const [ signinData , setSigninData] = useState({
     username: '',
@@ -60,6 +60,7 @@ export default function UserSignInForm() {
     });
 
     if(result?.status == 200) {
+      setUserData(result?.user?.username);
       setTimeout(() => {
         window.location.href = '/user/home';
       }, 1000);

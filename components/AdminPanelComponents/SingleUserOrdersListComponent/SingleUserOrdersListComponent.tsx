@@ -1,22 +1,22 @@
 'use client'
 
-import Link from "next/link";
-import { useAdminMainContext } from "@/utils/contexts/adminContexts/adminMainContexts";
-import PaginationComponent from "../../CommonComponents/PaginationComponent/PaginationComponent";
-import { Order } from "@/utils/interfaces/admin-interfaces/order.Interface";
 import { convertDateToPersian, convertNumbersToPersian } from "@/assets/scripts/common/common";
+import { useAdminMainContext } from "@/utils/contexts/adminContexts/adminMainContexts";
+import { Order } from "@/utils/interfaces/admin-interfaces/order.Interface";
+import { UserInterface } from "@/utils/interfaces/admin-interfaces/user.interface";
+import Link from "next/link";
 
-export default function AdminOrdersMainContentsComponent({ ordersList } : {ordersList : Order[]}) {
+export default function SingleUserOrdersListComponent({ ordersList , userData } : { ordersList : Order[] , userData : UserInterface }) {
 
-  const {theme} = useAdminMainContext();
+    const {theme} = useAdminMainContext();
 
-  const unitsList : { [key: string]: string } = {'item':'عدد','gr':'گرم','mithqal':'مثقال','miliGram':'سوت'};
-  const orderTypes : string[] = ['فروش','خرید'];
+    const unitsList : { [key: string]: string } = {'item':'عدد','gr':'گرم','mithqal':'مثقال','miliGram':'سوت'};
+    const orderTypes : string[] = ['فروش','خرید'];
 
   return (
     <>
         <div className={`p-2 w-full min-h-screen rounded back-theme-${theme}`}>
-            <h2 className="text-lg p-3">لیست معامله های در جریان</h2>
+            <h2 className="text-lg p-3">لیست معامله های {userData.username}</h2>
             <div className='w-11/12 mt-10 mx-auto p-3 rounded-lg border text-center'>
                 <p>لیست آخرین معاملات</p>
                 <div className={`p-2 mt-4 overflow-auto ${theme == 'light' ? 'border-t' : 'border rounded'}`}>
@@ -37,7 +37,7 @@ export default function AdminOrdersMainContentsComponent({ ordersList } : {order
 
                         <tbody>
                             {
-                                ordersList.map((order:Order , index:number) => {
+                                ordersList?.map((order:Order , index:number) => {
 
                                     return(
                                         <tr key={order._id} className="even:bg-[#c9bfae] even:text-[#48514b]">

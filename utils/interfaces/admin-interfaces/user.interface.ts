@@ -7,6 +7,16 @@ export interface UserInterface {
     province : string;
     city : string;
     address? : string;
-    createdAt : string;
+    createdAt : Date;
     userRegister : number
+    userLevel : number;
 }
+
+// export interface UserLevelInterface {
+//     _id : string;
+//     userId : string;
+//     userLevelRate : number;
+//     userLevelName : string;
+//     createdAt : Date;
+//     updatedAt : Date;
+// }

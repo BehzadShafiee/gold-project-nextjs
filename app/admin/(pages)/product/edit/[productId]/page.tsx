@@ -6,7 +6,7 @@ export default async function page({ params } : { params : Promise<{productId : 
   const { productId } = await params;
 
   const productData = await getProductByProductId(productId);
-
+  
   return (
     <>
       {
