@@ -102,7 +102,7 @@ export default function HomeSellForm({ userId , walletProductsList } : { userId 
         }
     }
 
-    const hadleSetSellOrder = async (e: FormEvent<HTMLFormElement>) => {
+    const handleSetSellOrder = async (e: FormEvent<HTMLFormElement>) => {
         
         e.preventDefault();
         const result = await submitSellOrderByAxios(buyForm);
@@ -126,7 +126,7 @@ export default function HomeSellForm({ userId , walletProductsList } : { userId 
 
   return (
     <>
-        <form onSubmit={(e) => hadleSetSellOrder(e)} className='w-full h-[70vh] flex flex-col justify-between'>
+        <form onSubmit={(e) => handleSetSellOrder(e)} className='w-full h-[70vh] flex flex-col justify-between'>
 
             <div className={`text-start ${theme == 'light' ? 'color-black-light' : ''} font-16 ps-1`}>مقدار طلای مورد نظر</div>
             <div className={`flex border-2 ${theme == 'dark' ? 'border-white' : ''} rounded-lg overflow-hidden my-2`}>
