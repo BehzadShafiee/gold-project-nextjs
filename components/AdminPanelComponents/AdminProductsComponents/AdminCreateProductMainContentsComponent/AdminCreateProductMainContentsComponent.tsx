@@ -58,7 +58,7 @@ export default function AdminCreateProductMainContentsComponent() {
   }
 
   const removeAttribute = (idx: number) => {
-    setAttributes(prev => prev.filter((_, i) => i !== idx))
+    setAttributes(prev => prev.filter((_, i) => i != idx))
   }
 
   const updateAttribute = (idx: number, field: keyof Attribute, value: string | number | boolean) => {
@@ -86,7 +86,7 @@ export default function AdminCreateProductMainContentsComponent() {
 
     if (!productName.trim()) return alert('نام محصول را وارد کنید');
     if (Number(convertNumbersToEnglish(basePrice)) < 0) setBasePrice('');
-    if (basePrice === '') return alert('قیمت پایه را وارد کنید');
+    if (basePrice == '') return alert('قیمت پایه را وارد کنید');
 
     const payload: ProductPayload = {
       product: {
@@ -100,7 +100,7 @@ export default function AdminCreateProductMainContentsComponent() {
       attributes: attributes.map(attr => ({
         key: attr.key,
         value:
-          attr.value === ''
+          attr.value == ''
             ? ''
             : isNaN(Number(attr.value))
             ? attr.value
@@ -168,7 +168,7 @@ export default function AdminCreateProductMainContentsComponent() {
                             <select
                                 value={standard}
                                 onChange={e => setStandard(e.target.value)}
-                                className={`in-w-40 h-10 border border-gray-300 rounded-lg px-2 ${theme == 'light' ? 'color-black-light' : ''} `}
+                                className={`min-w-40 h-10 border border-gray-300 rounded-lg px-2 ${theme == 'light' ? 'color-black-light' : ''} `}
                             >
                             <option value="18">۱۸</option>
                             <option value="24">۲۴</option>
@@ -306,7 +306,7 @@ export default function AdminCreateProductMainContentsComponent() {
                                         >
                                         {operatorOptions.map(op => (
                                             <option key={op} value={op}>
-                                                {op === 'none' ? 'هیچ کدام' : op}
+                                                {op == 'none' ? 'هیچ کدام' : op}
                                             </option>
                                         ))}
                                     </select>

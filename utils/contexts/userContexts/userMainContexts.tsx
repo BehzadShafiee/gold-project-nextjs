@@ -2,36 +2,16 @@
 'use client'
 
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import { CustomerMainContextInterface } from '@/utils/interfaces/customer-interfaces/CustomerMainContext.interface';
 
-interface UserMainContextType {
-  // pageTitle: string;
-  // setPageTitle: (value: string) => void;
-  userData: string;
-  setUserData: (value: string) => void;
-  theme: string;
-  setTheme: (value: string) => void;
-  openSideBar: boolean;
-  setOpenSideBar: (value: boolean) => void;
-  simpleToastData: SimpleToastData;
-  setSimpleToastData: (value : SimpleToastData) => void;
-}
-
-interface SimpleToastData {
-  show: boolean;
-  message : string ,
-  status : string 
-}
-
-const UserMainContext = createContext<UserMainContextType | undefined>(undefined);
+const UserMainContext = createContext<CustomerMainContextInterface | undefined>(undefined);
 
 export const UserMainContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  
-  // const [pageTitle , setPageTitle] = useState<string>('پنل مدیریت');
 
-  const [theme , setTheme] = useState<string>('dark');
-  const [userData , setUserData] = useState<string>('. . .');
-  const [openSideBar , setOpenSideBar] = useState<boolean>(false);
-  const [simpleToastData , setSimpleToastData] = useState({show: false, message: '' , status: '' });
+  const [theme , setTheme] = useState<CustomerMainContextInterface['theme']>('dark');
+  const [userData , setUserData] = useState<CustomerMainContextInterface['userData']>('. . .');
+  const [openSideBar , setOpenSideBar] = useState<CustomerMainContextInterface['openSideBar']>(false);
+  const [simpleToastData , setSimpleToastData] = useState<CustomerMainContextInterface['simpleToastData']>({show: false, message: '' , status: '' });
 
   useEffect(() => {
       const savedTheme = localStorage.getItem("goldSavedUserTheme");
@@ -52,9 +32,6 @@ export const UserMainContextProvider: React.FC<{ children: ReactNode }> = ({ chi
   return (
     <UserMainContext.Provider 
         value={{
-                // pageTitle,
-                // setPageTitle 
-
                 theme,
                 setTheme,
                 userData,

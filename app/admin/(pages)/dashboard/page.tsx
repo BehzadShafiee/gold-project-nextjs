@@ -3,7 +3,6 @@
 import { useAdminMainContext } from "@/utils/contexts/adminContexts/adminMainContexts";
 
 import AdminDashboardChartComponent from "@/components/AdminPanelComponents/AdminDashboardComponents/AdminDashboardChartComponent/AdminDashboardChartComponent";
-import Link from "next/link";
 import OrderIcon from "@/assets/icons/OrderIcon";
 import Dollar from "@/assets/icons/Dollar";
 import Gold from "@/assets/icons/Gold";
