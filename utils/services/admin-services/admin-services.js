@@ -40,7 +40,6 @@ export const logInAdminByAxios = async (adminData) => {
       data: adminData
     });
     return res.data;
-    // window.location.href = '/admin/dashboard';
   } catch (err) {
     console.log(err);
     return err;

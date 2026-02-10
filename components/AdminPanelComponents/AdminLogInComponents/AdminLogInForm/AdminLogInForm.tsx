@@ -4,6 +4,7 @@
 import { useAdminMainContext } from "@/utils/contexts/adminContexts/adminMainContexts";
 import { logInAdminByAxios } from "@/utils/services/admin-services/admin-services";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 
 export default function AdminLogInForm() {
@@ -11,6 +12,8 @@ export default function AdminLogInForm() {
   const { setAdminData , theme , setSimpleToastData } = useAdminMainContext();
 
   const [ loginData , setLoginData] = useState({email:'', password:''});
+
+  const router = useRouter();
 
   const handleSetLoginData = (e: React.ChangeEvent<HTMLInputElement> , type: string) => {
     switch (type) {
@@ -39,7 +42,8 @@ export default function AdminLogInForm() {
     if(result?.status == 200) {
       setAdminData(result?.admin?.adminName);
       setTimeout(() => {
-        window.location.href = '/admin/dashboard';
+        // window.location.href = '/admin/dashboard';
+        router.push('/admin/dashboard');
       }, 1000);
     }
   }

@@ -4,11 +4,14 @@
 import { useAdminMainContext } from "@/utils/contexts/adminContexts/adminMainContexts";
 import { SignInAdminByAxios } from "@/utils/services/admin-services/admin-services";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 
 export default function AdminSignInForm() {
 
   const { setAdminData , theme , setSimpleToastData } = useAdminMainContext();
+
+  const router = useRouter();
 
   const [ signinData , setSigninData] = useState({
     adminName: '',
@@ -62,7 +65,8 @@ export default function AdminSignInForm() {
     if(result?.status == 200) {
       setAdminData(result?.admin?.adminName);
       setTimeout(() => {
-        window.location.href = '/admin/dashboard';
+        // window.location.href = '/admin/dashboard';
+        router.push('/admin/dashboard');
       }, 1000);
     }
 
