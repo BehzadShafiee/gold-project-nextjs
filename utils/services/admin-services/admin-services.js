@@ -180,6 +180,20 @@ export const getSingleProductPriceChanges = async (productId) => {
   }
 }
 
+export const getProductPriceChangesByProductIdByAxios = async (pId) => {
+  try {
+    const res = await axios({
+      url: `${adminApiUrl}/products/price-changes/${pId}`,
+      method: "get",
+      // data: registerValue,
+    });
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+}
+
 export const submitNewProductByAxios = async (productData) => {
   await axios({
     url: `${adminApiUrl}/products/new-product`,

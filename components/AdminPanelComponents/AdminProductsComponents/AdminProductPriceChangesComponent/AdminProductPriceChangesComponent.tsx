@@ -33,7 +33,7 @@ export default function AdminProductPriceChangesComponent({ productData } : { pr
                     
                     {
                         productData?.prices.map((p : ProductPrice , index:number) => {
-                            const tolerance = (productData.prices.length > 1 && index < productData.prices.length - 1) ? p.calculatedPrice - productData.prices[index + 1].calculatedPrice : '';
+                            const tolerance : number | null = (productData.prices.length > 1 && index < productData.prices.length - 1) ? p.calculatedPrice - productData.prices[index + 1].calculatedPrice : null;
                             return(
                                 <tr key={p._id} className="even:bg-[#c9bfae] even:text-[#48514b]">
                                     <td className="p-2">{convertNumbersToPersian(index + 1)}</td>
@@ -43,9 +43,9 @@ export default function AdminProductPriceChangesComponent({ productData } : { pr
                                     <td className="p-2">
                                         {
                                             
-                                            tolerance > 0 ? 
+                                            tolerance && tolerance > 0 ? 
                                                 <span className="text-green-600">{convertNumbersToPersian(Number(tolerance))} افزایش</span>
-                                            : tolerance < 0 ?
+                                            : tolerance && tolerance < 0 ?
                                                 <span className="text-red-400">{convertNumbersToPersian(tolerance * -1)} کاهش</span>
                                             :
                                                 <span>- - -</span>

@@ -2,36 +2,18 @@
 'use client'
 
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import { AdminMainContextInterface } from '@/utils/interfaces/admin-interfaces/AdminMainContext.interface';
 
-interface AdminMainContextType {
-  // pageTitle: string;
-  // setPageTitle: (value: string) => void;
-  adminData: string;
-  setAdminData: (value: string) => void;
-  theme: string;
-  setTheme: (value: string) => void;
-  openSideBar: boolean;
-  setOpenSideBar: (value: boolean) => void;
-  simpleToastData: SimpleToastData;
-  setSimpleToastData: (value : SimpleToastData) => void;
-}
-
-interface SimpleToastData {
-  show: boolean;
-  message : string ,
-  status : string 
-}
-
-const AdminMainContext = createContext<AdminMainContextType | undefined>(undefined);
+const AdminMainContext = createContext<AdminMainContextInterface | undefined>(undefined);
 
 export const AdminMainContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   
   // const [pageTitle , setPageTitle] = useState<string>('پنل مدیریت');
 
-  const [theme , setTheme] = useState<string>('dark');
-  const [adminData , setAdminData] = useState<string>('. . .');
-  const [openSideBar , setOpenSideBar] = useState<boolean>(false);
-  const [simpleToastData , setSimpleToastData] = useState({show: false, message: '' , status: '' });
+  const [theme , setTheme] = useState<AdminMainContextInterface['theme']>('dark');
+  const [adminData , setAdminData] = useState<AdminMainContextInterface['adminData']>('. . .');
+  const [openSideBar , setOpenSideBar] = useState<AdminMainContextInterface['openSideBar']>(false);
+  const [simpleToastData , setSimpleToastData] = useState<AdminMainContextInterface['simpleToastData']>({show: false, message: '' , status: '' });
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("goldSavedAdminTheme");

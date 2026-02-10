@@ -12,7 +12,7 @@ export default function AdminDashboardLastOrdersComponent() {
 
     const {theme} = useAdminMainContext();
 
-    const [lasetOrders , setLastOrder] = useState<Order[]>([]);
+    const [lastOrders , setLastOrder] = useState<Order[]>([]);
 
     const handleGetAllOrdersByFetch = async () => {
         const ordersList = await getAllNewOrdersByFetch(10);        
@@ -51,7 +51,7 @@ export default function AdminDashboardLastOrdersComponent() {
               </thead>
               <tbody>
                 {
-                    lasetOrders.map((order:Order , index:number) => {
+                    lastOrders.map((order:Order , index:number) => {
 
                         return(
                             <tr key={order._id} className="even:bg-[#c9bfae] even:text-[#48514b]">

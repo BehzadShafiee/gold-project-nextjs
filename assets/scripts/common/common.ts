@@ -14,7 +14,12 @@ export const convertNumbersToEnglish = (e: string | number): string => {
     return e.replace(/[۰-۹]/g, (persianDigit) => englishDigits[persianDigit.charCodeAt(0) - 1776]);
 }
 
-export const convertDateToPersian = (d: Date | string | number) => {
-    const persianDate = new Date(d).toLocaleString('fa-IR');
+export const convertDateToPersian = (d: Date | string | number , justDate : boolean = false) => {
+    const persianDate = justDate ? new Date(d).toLocaleDateString('fa-IR') : new Date(d).toLocaleString('fa-IR');
     return persianDate;
+}
+
+export const convertDateToEnglish = (d: Date | string | number , justDate : boolean = false) => {
+    const englishDate = justDate ? new Date(d).toLocaleDateString('en-US') : new Date(d).toLocaleString('en-US');
+    return englishDate;
 }
