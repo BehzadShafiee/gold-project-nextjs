@@ -36,6 +36,7 @@ export interface ProductPrice {
     basePrice: number;
     priceUnit: string;
     currency: string;
+    calculateTax: boolean;
     calculatedPrice: number;
     createdAt: string;
 }

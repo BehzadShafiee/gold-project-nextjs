@@ -40,7 +40,6 @@ export const logInAdminByAxios = async (adminData) => {
       data: adminData
     });
     return res.data;
-    // window.location.href = '/admin/dashboard';
   } catch (err) {
     console.log(err);
     return err;
@@ -153,6 +152,16 @@ export const changeOrderRegisterationByOrderId = async (orderId , registerValue)
 export const getAllProductsByFetch = async () => {
   try {
     const data = await fetch(`${adminApiUrl}/products` , { cache: 'no-store' });
+    return data.json();
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+}
+
+export const getAllProductsWithLastPriceByFetch = async () => {
+  try {
+    const data = await fetch(`${adminApiUrl}/products/products-last-price` , { cache: 'no-store' });
     return data.json();
   } catch (error) {
     console.log(error);

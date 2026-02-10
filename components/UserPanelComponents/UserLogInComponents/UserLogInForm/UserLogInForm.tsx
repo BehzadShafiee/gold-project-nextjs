@@ -4,6 +4,7 @@
 import { useUserMainContext } from "@/utils/contexts/userContexts/userMainContexts";
 import { logInUserByAxios } from "@/utils/services/customer-services/customer-services";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 
 export default function UserLogInForm() {
@@ -11,6 +12,8 @@ export default function UserLogInForm() {
   const { setUserData , theme , setSimpleToastData } = useUserMainContext();
 
   const [ loginData , setLoginData] = useState({email:'', password:''});
+
+  const router = useRouter();
 
   const handleSetLoginData = (e: React.ChangeEvent<HTMLInputElement> , type: string) => {
     switch (type) {
@@ -39,7 +42,8 @@ export default function UserLogInForm() {
     if(result?.status == 200) {
       setUserData(result?.user?.username);
       setTimeout(() => {
-        window.location.href = '/user/home';
+        // window.location.href = '/user/home';
+        router.push('/user/home');
       }, 1000);
     }
   }
