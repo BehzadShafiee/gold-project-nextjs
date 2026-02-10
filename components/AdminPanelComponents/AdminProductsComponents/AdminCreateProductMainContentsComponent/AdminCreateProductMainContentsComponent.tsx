@@ -29,6 +29,7 @@ interface ProductPayload {
     basePrice: number
     priceUnit: string
     currency: string
+    calculateTax: boolean
   }
 }
 
@@ -45,6 +46,7 @@ export default function AdminCreateProductMainContentsComponent() {
   const [basePrice, setBasePrice] = useState('');
   const [priceUnit, setPriceUnit] = useState('perGram');
   const [currency, setCurrency] = useState('IRR');
+  const [calculateTax, setCalculateTax] = useState(false);
 
   const [attributes, setAttributes] = useState<Attribute[]>([])
 
@@ -69,16 +71,17 @@ export default function AdminCreateProductMainContentsComponent() {
     });
   }
 
-    const calculateTax = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleCalculateTax = (e: React.ChangeEvent<HTMLInputElement>) => {
         const checked = e.target.checked;
-        const priceNum = Number(convertNumbersToEnglish(basePrice));
-        if (checked) {
-            const priceWithTax = Math.round(priceNum + priceNum * 0.1);
-            setBasePrice(priceWithTax.toString());
-        } else {
-            const priceWithoutTax = Math.round(priceNum / 1.1);
-            setBasePrice(priceWithoutTax.toString());
-        }
+        // const priceNum = Number(convertNumbersToEnglish(basePrice));
+        setCalculateTax(e.target.checked);
+        // if (checked) {
+        //     const priceWithTax = Math.round(priceNum + priceNum * 0.1);
+        //     setBasePrice(priceWithTax.toString());
+        // } else {
+        //     const priceWithoutTax = Math.round(priceNum / 1.1);
+        //     setBasePrice(priceWithoutTax.toString());
+        // }
     };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -113,6 +116,7 @@ export default function AdminCreateProductMainContentsComponent() {
         basePrice: Number(basePrice),
         priceUnit,
         currency,
+        calculateTax
       }
     }
 
@@ -132,6 +136,7 @@ export default function AdminCreateProductMainContentsComponent() {
       setCategory('');
       setCode('');
       setBasePrice('');
+      setCalculateTax(false);
       setPriceUnit('gr');
       setCurrency('IRR');
       setAttributes([]);
@@ -253,9 +258,10 @@ export default function AdminCreateProductMainContentsComponent() {
                         <div className='flex flex-col items-center justify-between'>
                             <label className="px-2">محاسبه مالیات</label>
                             <input
+                                checked={calculateTax}
                                 type="checkbox"
                                 className="w-5 h-5 cursor-pointer"
-                                onChange={(e) => {calculateTax(e)}}
+                                onChange={(e) => handleCalculateTax(e)}
                             />
                         </div>
                     </div>

@@ -57,6 +57,10 @@ export default function AdminPanelSideBarMenuList() {
                     <span className="w-2 h-2 rounded-full back-gray-light"/>
                     <span>ایجاد محصول جدید</span>
                 </Link>
+                <Link onClick={() => setOpenSideBar(false)} prefetch={false} href='/admin/products-prices' className='text-sm p-2 flex items-center justify-start gap-2 rounded transition-all hover:bg-[#d0a12b] hover:text-[#f8faf9] fill-[#d0a12b] hover:fill-[#f8faf9]'>
+                    <span className="w-2 h-2 rounded-full back-gray-light"/>
+                    <span>لیست قیمت محصولات</span>
+                </Link>
             </div>
         </div>
     </>

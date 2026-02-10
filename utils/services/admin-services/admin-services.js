@@ -159,6 +159,16 @@ export const getAllProductsByFetch = async () => {
   }
 }
 
+export const getAllProductsWithLastPriceByFetch = async () => {
+  try {
+    const data = await fetch(`${adminApiUrl}/products/products-last-price` , { cache: 'no-store' });
+    return data.json();
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+}
+
 export const getProductByProductId = async (productId) => {
   try {
     const data = await fetch(`${adminApiUrl}/products/${productId}` , { cache: 'no-store' });
