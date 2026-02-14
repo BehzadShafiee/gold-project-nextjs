@@ -223,6 +223,20 @@ export const EditProductByAxios = async (productId , productData) => {
     .catch((err) => console.log(err));
 };
 
+export const EditProductPriceByAxios = async (productId , priceData) => {
+  try {
+    const res = await axios({
+      url: `${adminApiUrl}/products/product-price/${productId}`,
+      method: "post",
+      data: priceData,
+    });
+    return res.data; 
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
 export const setNewRegisterationForUser = async (userId , registerValue) => {
   try {
     const res = await axios({
