@@ -237,6 +237,20 @@ export const EditProductPriceByAxios = async (productId , priceData) => {
   }
 };
 
+export const EditProductsPricesListByAxios = async (priceData) => {
+  try {
+    const res = await axios({
+      url: `${adminApiUrl}/products/products-prices-list`,
+      method: "post",
+      data: priceData,
+    });
+    return res.data; 
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
 export const setNewRegisterationForUser = async (userId , registerValue) => {
   try {
     const res = await axios({
