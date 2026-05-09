@@ -13,5 +13,5 @@ export interface Order {
     username: string;
     mobile: string;
   };
-  isRegister: number
+  isRegister: number;
 }

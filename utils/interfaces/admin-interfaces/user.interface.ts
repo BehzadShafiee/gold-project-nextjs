@@ -8,7 +8,7 @@ export interface UserInterface {
     city : string;
     address? : string;
     createdAt : Date;
-    userRegister : number
+    userRegister : number;
     userLevel : number;
 }
 
