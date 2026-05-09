@@ -24,32 +24,35 @@ export default function UserSignInForm() {
   });
 
   const handleSetSigninData = (e: React.ChangeEvent<HTMLInputElement> , type: string) => {
-    switch (type) {
-      case 'username':
-        setSigninData({...signinData , username: e.target.value});
-        break;
-      case 'nationalCode':
-        setSigninData({...signinData , nationalCode: e.target.value})
-        break;
-      case 'email':
-        setSigninData({...signinData , email: e.target.value})
-        break;
-      case 'mobile':
-        setSigninData({...signinData , mobile: e.target.value})
-        break;
-      case 'city':
-        setSigninData({...signinData , city: e.target.value})
-        break;
-      case 'province':
-        setSigninData({...signinData , province: e.target.value})
-        break;
-      case 'password':
-        setSigninData({...signinData , password: e.target.value})
-        break;
+    // switch (type) {
+    //   case 'username':
+    //     setSigninData({...signinData , username: e.target.value});
+    //     break;
+    //   case 'nationalCode':
+    //     setSigninData({...signinData , nationalCode: e.target.value})
+    //     break;
+    //   case 'email':
+    //     setSigninData({...signinData , email: e.target.value})
+    //     break;
+    //   case 'mobile':
+    //     setSigninData({...signinData , mobile: e.target.value})
+    //     break;
+    //   case 'city':
+    //     setSigninData({...signinData , city: e.target.value})
+    //     break;
+    //   case 'province':
+    //     setSigninData({...signinData , province: e.target.value})
+    //     break;
+    //   case 'password':
+    //     setSigninData({...signinData , password: e.target.value})
+    //     break;
     
-      default:
-        break;
-    }
+    //   default:
+    //     break;
+    // }
+
+    setSigninData(prev => ({ ...prev , [type] : e.target.value }));
+
   }
 
   const handleSubmitSignin = async (e : FormEvent) => {

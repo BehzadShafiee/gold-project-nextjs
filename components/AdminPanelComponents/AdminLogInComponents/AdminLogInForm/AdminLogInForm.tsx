@@ -16,17 +16,20 @@ export default function AdminLogInForm() {
   const router = useRouter();
 
   const handleSetLoginData = (e: React.ChangeEvent<HTMLInputElement> , type: string) => {
-    switch (type) {
-      case 'email':
-        setLoginData({...loginData , email: e.target.value});
-        break;
-      case 'password':
-        setLoginData({...loginData , password: e.target.value})
-        break;
+    // switch (type) {
+    //   case 'email':
+    //     setLoginData({...loginData , email: e.target.value});
+    //     break;
+    //   case 'password':
+    //     setLoginData({...loginData , password: e.target.value})
+    //     break;
     
-      default:
-        break;
-    }
+    //   default:
+    //     break;
+    // }
+
+    setLoginData(prev => ({ ...prev , [type] : e.target.value }));
+
   }
 
   const handleSubmitLogin = async (e : FormEvent) => {

@@ -13,6 +13,6 @@ export interface AdminMainContextInterface {
 
 export interface SimpleToastData {
   show: boolean;
-  message : string ,
-  status : string 
+  message : string;
+  status : string;
 }
